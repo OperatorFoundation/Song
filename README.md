@@ -34,7 +34,11 @@ swift test
 ### Encoding and decoding tests
 
 The tests cover encoding and decoding primitive types, Foundation types, arrays, dictionaries, structs, and classes.
-Enums are not yet supported.
+
+## Limitations
+
+* Enums are not yet supported.
+* Decoding is not yet supported.
 
 ## Deployment
 
