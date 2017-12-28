@@ -66,7 +66,7 @@ let result: Data = try? song.encode(ex)
 For this example, we will just print it as a UTF8 string.
 
 ```
-NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
+NSLog("\(String(bytes: result!, encoding: .utf8)!)")
 ```
 
 The result will be the following string:
