@@ -7,7 +7,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         let result = try? song.encode("string")
         let correct = "let value: String = \"string\"".data(using: .utf8)!
         
@@ -20,7 +20,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         let value: Int = 100
         let result = try? song.encode(value)
         let correct = "let value: Int = 100".data(using: .utf8)!
@@ -34,7 +34,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         let value: Int64 = 100
         let result = try? song.encode(value)
         let correct = "let value: Int64 = 100".data(using: .utf8)!
@@ -48,7 +48,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         let value: Int32 = 100
         let result = try? song.encode(value)
         let correct = "let value: Int32 = 100".data(using: .utf8)!
@@ -62,7 +62,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         let value: Int16 = 100
         let result = try? song.encode(value)
         let correct = "let value: Int16 = 100".data(using: .utf8)!
@@ -76,7 +76,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         let value: Int8 = 100
         let result = try? song.encode(value)
         let correct = "let value: Int8 = 100".data(using: .utf8)!
@@ -90,7 +90,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         let value: UInt = 100
         let result = try? song.encode(value)
         let correct = "let value: UInt = 100".data(using: .utf8)!
@@ -104,7 +104,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         let value: UInt64 = 100
         let result = try? song.encode(value)
         let correct = "let value: UInt64 = 100".data(using: .utf8)!
@@ -118,7 +118,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         let value: UInt32 = 100
         let result = try? song.encode(value)
         let correct = "let value: UInt32 = 100".data(using: .utf8)!
@@ -132,7 +132,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         let value: UInt16 = 100
         let result = try? song.encode(value)
         let correct = "let value: UInt16 = 100".data(using: .utf8)!
@@ -146,7 +146,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         let value: UInt8 = 100
         let result = try? song.encode(value)
         let correct = "let value: UInt8 = 100".data(using: .utf8)!
@@ -160,7 +160,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         let value: Float = 100
         let result = try? song.encode(value)
         let correct = "let value: Float = 100.0".data(using: .utf8)!
@@ -173,7 +173,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         let value: Double = 100
         let result = try? song.encode(value)
         let correct = "let value: Double = 100.0".data(using: .utf8)!
@@ -187,7 +187,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         
         let result1 = try? song.encode(true)
         let correct1 = "let value: Bool = true".data(using: .utf8)!
@@ -206,7 +206,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         
         let data = Data(base64Encoded: "c3RyaW5n")
         let result = try? song.encode(data)
@@ -226,7 +226,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         
         let uuid = UUID(uuidString: "123E4567-E89B-12D3-A456-426655440000")!
         let result = try? song.encode(uuid)
@@ -246,7 +246,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         
         let dec = Decimal(string: "100")!
         let result = try? song.encode(dec)
@@ -266,7 +266,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         
         let ints: [Int] = [100, 200, 300]
         let result = try? song.encode(ints)
@@ -286,7 +286,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         
         let ints: [Int64] = [100, 200, 300]
         let result = try? song.encode(ints)
@@ -306,7 +306,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         
         let ints: [Int32] = [100, 200, 300]
         let result = try? song.encode(ints)
@@ -326,7 +326,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         
         let ints: [Int16] = [100, 200, 300]
         let result = try? song.encode(ints)
@@ -346,7 +346,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         
         let ints: [Int8] = [100, 120, 126]
         let result = try? song.encode(ints)
@@ -366,7 +366,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         
         struct ExampleStruct: Codable {
             let value: String
@@ -390,7 +390,7 @@ class SongTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        let song = Song()
+        let song = SongEncoder()
         
         struct ExampleStruct: Codable {
             let value: String
@@ -412,7 +412,7 @@ class SongTests: XCTestCase {
     }
     
     func testEncodeClass() {
-        let song = Song()
+        let song = SongEncoder()
         
         class ExampleClass: Codable {
             let value: String
@@ -437,7 +437,7 @@ class SongTests: XCTestCase {
     }
 
     func testEncodeClass2() {
-        let song = Song()
+        let song = SongEncoder()
         
         class ExampleClass: Codable {
             let value: String
@@ -464,7 +464,7 @@ class SongTests: XCTestCase {
     }
 
     func testEncodeDictionary() {
-        let song = Song()
+        let song = SongEncoder()
 
         let ex: Dictionary<String, String> = ["a": "b"]
         let result = try? song.encode(ex)
@@ -478,6 +478,426 @@ class SongTests: XCTestCase {
         
         XCTAssertNotNil(result)
         XCTAssertEqual(result!, correct)
+    }
+
+    func testDecodeString() {
+        let song = SongDecoder()
+        let source = "let value: String = \"string\"".data(using: .utf8)!
+        let result = try? song.decode(String.self, from: source)
+        let correct: String = "string"
+        
+        NSLog(String(describing: result))
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeBool() {
+        let song = SongDecoder()
+        let source = "let value: Bool = true".data(using: .utf8)!
+        let result = try? song.decode(Bool.self, from: source)
+        let correct: Bool = true
+        
+        NSLog(String(describing: result))
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeDouble() {
+        let song = SongDecoder()
+        let source = "let value: Double = 123.5".data(using: .utf8)!
+        let result = try? song.decode(Double.self, from: source)
+        let correct: Double = 123.5
+        
+        NSLog(String(describing: result))
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+    
+    func testDecodeFloat() {
+        let song = SongDecoder()
+        let source = "let value: Float = 123.5".data(using: .utf8)!
+        let result = try? song.decode(Float.self, from: source)
+        let correct: Float = 123.5
+        
+        NSLog(String(describing: result))
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeInt() {
+        let song = SongDecoder()
+        let source = "let value: Int = 123".data(using: .utf8)!
+        let result = try? song.decode(Int.self, from: source)
+        let correct: Int = 123
+        
+        NSLog(String(describing: result))
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeInt64() {
+        let song = SongDecoder()
+        let source = "let value: Int64 = 123".data(using: .utf8)!
+        let result = try? song.decode(Int64.self, from: source)
+        let correct: Int64 = 123
+        
+        NSLog(String(describing: result))
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeInt32() {
+        let song = SongDecoder()
+        let source = "let value: Int32 = 123".data(using: .utf8)!
+        let result = try? song.decode(Int32.self, from: source)
+        let correct: Int32 = 123
+        
+        NSLog(String(describing: result))
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeInt16() {
+        let song = SongDecoder()
+        let source = "let value: Int16 = 123".data(using: .utf8)!
+        let result = try? song.decode(Int16.self, from: source)
+        let correct: Int16 = 123
+        
+        NSLog(String(describing: result))
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeInt8() {
+        let song = SongDecoder()
+        let source = "let value: Int8 = 123".data(using: .utf8)!
+        let result = try? song.decode(Int8.self, from: source)
+        let correct: Int8 = 123
+        
+        NSLog(String(describing: result))
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeUInt() {
+        let song = SongDecoder()
+        let source = "let value: UInt = 123".data(using: .utf8)!
+        let result = try? song.decode(UInt.self, from: source)
+        let correct: UInt = 123
+        
+        NSLog(String(describing: result))
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+    
+    func testDecodeUInt64() {
+        let song = SongDecoder()
+        let source = "let value: UInt64 = 123".data(using: .utf8)!
+        let result = try? song.decode(UInt64.self, from: source)
+        let correct: UInt64 = 123
+        
+        NSLog(String(describing: result))
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+    
+    func testDecodeUInt32() {
+        let song = SongDecoder()
+        let source = "let value: UInt32 = 123".data(using: .utf8)!
+        let result = try? song.decode(UInt32.self, from: source)
+        let correct: UInt32 = 123
+        
+        NSLog(String(describing: result))
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+    
+    func testDecodeUInt16() {
+        let song = SongDecoder()
+        let source = "let value: UInt16 = 123".data(using: .utf8)!
+        let result = try? song.decode(UInt16.self, from: source)
+        let correct: UInt16 = 123
+        
+        NSLog(String(describing: result))
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+    
+    func testDecodeUInt8() {
+        let song = SongDecoder()
+        let source = "let value: UInt8 = 123".data(using: .utf8)!
+        let result = try? song.decode(UInt8.self, from: source)
+        let correct: UInt8 = 123
+        
+        NSLog(String(describing: result))
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+    
+    func testDecodeBoolArray() {
+        let song = SongDecoder()
+        
+        let source = "let value: Array<Bool> = [true, false, true]".data(using: .utf8)!
+        let correct: [Bool] = [true, false, true]
+        
+        let result = try? song.decode([Bool].self, from: source)
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeStringArray() {
+        let song = SongDecoder()
+        
+        let source = "let value: Array<String> = [\"a\", \"b\", \"c\"]".data(using: .utf8)!
+        let correct: [String] = ["a", "b", "c"]
+        
+        let result = try? song.decode([String].self, from: source)
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeFloatArray() {
+        let song = SongDecoder()
+        
+        let source = "let value: Array<Float> = [1.0, 123.5, 0.6667]".data(using: .utf8)!
+        let correct: [Float] = [1.0, 123.5, 0.6667]
+        
+        let result = try? song.decode([Float].self, from: source)
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeDoubleArray() {
+        let song = SongDecoder()
+        
+        let source = "let value: Array<Double> = [1.0, 123.5, 0.6667]".data(using: .utf8)!
+        let correct: [Double] = [1.0, 123.5, 0.6667]
+        
+        let result = try? song.decode([Double].self, from: source)
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeIntArray() {
+        let song = SongDecoder()
+        
+        let source = "let value: Array<Int> = [1, 123, 0]".data(using: .utf8)!
+        let correct: [Int] = [1, 123, 0]
+        
+        let result = try? song.decode([Int].self, from: source)
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeInt64Array() {
+        let song = SongDecoder()
+        
+        let source = "let value: Array<Int64> = [1, 123, 0]".data(using: .utf8)!
+        let correct: [Int64] = [1, 123, 0]
+        
+        let result = try? song.decode([Int64].self, from: source)
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeInt32Array() {
+        let song = SongDecoder()
+        
+        let source = "let value: Array<Int32> = [1, 123, 0]".data(using: .utf8)!
+        let correct: [Int32] = [1, 123, 0]
+        
+        let result = try? song.decode([Int32].self, from: source)
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeInt16Array() {
+        let song = SongDecoder()
+        
+        let source = "let value: Array<Int16> = [1, 123, 0]".data(using: .utf8)!
+        let correct: [Int16] = [1, 123, 0]
+        
+        let result = try? song.decode([Int16].self, from: source)
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeInt8Array() {
+        let song = SongDecoder()
+        
+        let source = "let value: Array<Int8> = [1, 123, 0]".data(using: .utf8)!
+        let correct: [Int8] = [1, 123, 0]
+        
+        let result = try? song.decode([Int8].self, from: source)
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeUIntArray() {
+        let song = SongDecoder()
+        
+        let source = "let value: Array<UInt> = [1, 123, 0]".data(using: .utf8)!
+        let correct: [UInt] = [1, 123, 0]
+        
+        let result = try? song.decode([UInt].self, from: source)
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+    
+    func testDecodeUInt64Array() {
+        let song = SongDecoder()
+        
+        let source = "let value: Array<UInt64> = [1, 123, 0]".data(using: .utf8)!
+        let correct: [UInt64] = [1, 123, 0]
+        
+        let result = try? song.decode([UInt64].self, from: source)
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+    
+    func testDecodeUInt32Array() {
+        let song = SongDecoder()
+        
+        let source = "let value: Array<UInt32> = [1, 123, 0]".data(using: .utf8)!
+        let correct: [UInt32] = [1, 123, 0]
+        
+        let result = try? song.decode([UInt32].self, from: source)
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+    
+    func testDecodeUInt16Array() {
+        let song = SongDecoder()
+        
+        let source = "let value: Array<UInt16> = [1, 123, 0]".data(using: .utf8)!
+        let correct: [UInt16] = [1, 123, 0]
+        
+        let result = try? song.decode([UInt16].self, from: source)
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+    
+    func testDecodeUInt8Array() {
+        let song = SongDecoder()
+        
+        let source = "let value: Array<UInt8> = [1, 123, 0]".data(using: .utf8)!
+        let correct: [UInt8] = [1, 123, 0]
+        
+        let result = try? song.decode([UInt8].self, from: source)
+        
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
     }
     
 //    static var allTests = [

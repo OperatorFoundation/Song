@@ -12,11 +12,12 @@ public protocol Datable {
     }
 }
 
-public class Song {
+public class SongEncoder {
     public var codingPath: [CodingKey]
     public var userInfo: [CodingUserInfoKey : Any]
     public var nextKeyedType: String?
     public var nextKeyedContainer: Datable?
+    public var data: Data?
     
     public init() {
         codingPath=[]
@@ -289,7 +290,7 @@ public class Song {
     }
 }
 
-extension Song: Encoder {
+extension SongEncoder: Encoder {
     public func container<Key>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> where Key : CodingKey {
         let container = SongKeyedEncodingContainer<Key>(encoder: self, codingPath: codingPath, containerType: nextKeyedType)
         nextKeyedContainer = container as Datable
@@ -304,3 +305,4 @@ extension Song: Encoder {
         return SongSingleValueEncodingContainer(encoder: self, codingPath: codingPath)
     }
 }
+
