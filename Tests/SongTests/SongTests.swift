@@ -1,6 +1,7 @@
 import XCTest
 @testable import Song
 import Foundation
+import Composition
 
 class SongTests: XCTestCase {
     func testEncodeString() {
@@ -212,8 +213,8 @@ class SongTests: XCTestCase {
         let result = try? song.encode(data)
         let correct = "let value: Data = Data(base64Encoded: \"c3RyaW5n\")".data(using: .utf8)!
         
-        NSLog("\(result! as! NSData)")
-        NSLog("\(correct as! NSData)")
+        NSLog("\(result! as NSData)")
+        NSLog("\(correct as NSData)")
         
         NSLog("\(String(bytes: result!, encoding: .utf8))")
         NSLog("\(String(bytes: correct, encoding: .utf8))")
@@ -232,8 +233,8 @@ class SongTests: XCTestCase {
         let result = try? song.encode(uuid)
         let correct = "let value: UUID = UUID(uuidString: \"123E4567-E89B-12D3-A456-426655440000\")".data(using: .utf8)!
         
-        NSLog("result \(result! as! NSData)")
-        NSLog("correct \(correct as! NSData)")
+        NSLog("result \(result! as NSData)")
+        NSLog("correct \(correct as NSData)")
         
         NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
         NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
@@ -252,8 +253,8 @@ class SongTests: XCTestCase {
         let result = try? song.encode(dec)
         let correct = "let value: Decimal = Decimal(string: \"100\")".data(using: .utf8)!
         
-        NSLog("result \(result! as! NSData)")
-        NSLog("correct \(correct as! NSData)")
+        NSLog("result \(result! as NSData)")
+        NSLog("correct \(correct as NSData)")
         
         NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
         NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
@@ -272,8 +273,8 @@ class SongTests: XCTestCase {
         let result = try? song.encode(ints)
         let correct = "let value: Array<Int> = [100, 200, 300]".data(using: .utf8)!
         
-        NSLog("result \(result! as! NSData)")
-        NSLog("correct \(correct as! NSData)")
+        NSLog("result \(result! as NSData)")
+        NSLog("correct \(correct as NSData)")
         
         NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
         NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
@@ -292,8 +293,8 @@ class SongTests: XCTestCase {
         let result = try? song.encode(ints)
         let correct = "let value: Array<Int64> = [100, 200, 300]".data(using: .utf8)!
         
-        NSLog("result \(result! as! NSData)")
-        NSLog("correct \(correct as! NSData)")
+        NSLog("result \(result! as NSData)")
+        NSLog("correct \(correct as NSData)")
         
         NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
         NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
@@ -312,8 +313,8 @@ class SongTests: XCTestCase {
         let result = try? song.encode(ints)
         let correct = "let value: Array<Int32> = [100, 200, 300]".data(using: .utf8)!
         
-        NSLog("result \(result! as! NSData)")
-        NSLog("correct \(correct as! NSData)")
+        NSLog("result \(result! as NSData)")
+        NSLog("correct \(correct as NSData)")
         
         NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
         NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
@@ -332,8 +333,8 @@ class SongTests: XCTestCase {
         let result = try? song.encode(ints)
         let correct = "let value: Array<Int16> = [100, 200, 300]".data(using: .utf8)!
         
-        NSLog("result \(result! as! NSData)")
-        NSLog("correct \(correct as! NSData)")
+        NSLog("result \(result! as NSData)")
+        NSLog("correct \(correct as NSData)")
         
         NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
         NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
@@ -352,8 +353,8 @@ class SongTests: XCTestCase {
         let result = try? song.encode(ints)
         let correct = "let value: Array<Int8> = [100, 120, 126]".data(using: .utf8)!
         
-        NSLog("result \(result! as! NSData)")
-        NSLog("correct \(correct as! NSData)")
+        NSLog("result \(result! as NSData)")
+        NSLog("correct \(correct as NSData)")
         
         NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
         NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
@@ -376,8 +377,8 @@ class SongTests: XCTestCase {
         let result = try? song.encode(ex)
         let correct = "let value: ExampleStruct = ExampleStruct(value: \"example string\")".data(using: .utf8)!
         
-        NSLog("result \(result! as! NSData)")
-        NSLog("correct \(correct as! NSData)")
+        NSLog("result \(result! as NSData)")
+        NSLog("correct \(correct as NSData)")
         
         NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
         NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
@@ -401,8 +402,8 @@ class SongTests: XCTestCase {
         let result = try? song.encode(ex)
         let correct = "let value: ExampleStruct = ExampleStruct(value: \"example string\", index: 123)".data(using: .utf8)!
         
-        NSLog("result \(result! as! NSData)")
-        NSLog("correct \(correct as! NSData)")
+        NSLog("result \(result! as NSData)")
+        NSLog("correct \(correct as NSData)")
         
         NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
         NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
@@ -426,8 +427,8 @@ class SongTests: XCTestCase {
         let result = try? song.encode(ex)
         let correct = "let value: ExampleClass = ExampleClass(value: \"example string\")".data(using: .utf8)!
         
-        NSLog("result \(result! as! NSData)")
-        NSLog("correct \(correct as! NSData)")
+        NSLog("result \(result! as NSData)")
+        NSLog("correct \(correct as NSData)")
         
         NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
         NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
@@ -453,8 +454,8 @@ class SongTests: XCTestCase {
         let result = try? song.encode(ex)
         let correct = "let value: ExampleClass = ExampleClass(value: \"example string\", index: 123)".data(using: .utf8)!
         
-        NSLog("result \(result! as! NSData)")
-        NSLog("correct \(correct as! NSData)")
+        NSLog("result \(result! as NSData)")
+        NSLog("correct \(correct as NSData)")
         
         NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
         NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
@@ -470,8 +471,8 @@ class SongTests: XCTestCase {
         let result = try? song.encode(ex)
         let correct = "let value: Dictionary<String, String> = [\"a\": \"b\"]".data(using: .utf8)!
         
-        NSLog("result \(result! as! NSData)")
-        NSLog("correct \(correct as! NSData)")
+        NSLog("result \(result! as NSData)")
+        NSLog("correct \(correct as NSData)")
         
         NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
         NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
@@ -479,7 +480,33 @@ class SongTests: XCTestCase {
         XCTAssertNotNil(result)
         XCTAssertEqual(result!, correct)
     }
-
+    
+//    func testEncodeEnum() {
+//        // This is an example of a functional test case.
+//        // Use XCTAssert and related functions to verify your tests produce the correct
+//        // results.
+//        let song = SongEncoder()
+//
+//        enum ExampleEnum
+//        {
+//            case a
+//            case b
+//        }
+//
+//        let ex = ExampleEnum.a
+//        let result = try? song.encode(ex)
+//        let correct = "let value: ExampleEnum = ExampleEnum.a".data(using: .utf8)!
+//
+//        NSLog("result \(result! as NSData)")
+//        NSLog("correct \(correct as NSData)")
+//
+//        NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
+//        NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
+//
+//        XCTAssertNotNil(result)
+//        XCTAssertEqual(result!, correct)
+//    }
+    
     func testDecodeString() {
         let song = SongDecoder()
         let source = "let value: String = \"string\"".data(using: .utf8)!
@@ -898,6 +925,35 @@ class SongTests: XCTestCase {
             return
         }
         XCTAssertEqual(r, correct)
+    }
+    
+    func testChoir()
+    {
+        let song = SongDecoder()
+        
+        let source = "let result = 123"
+        let correct = 123
+        
+        let expectation = XCTestExpectation(description: "remote call succeeded")
+        
+        remoteCall(code: source)
+        {
+            result in
+            
+            print("result: \(result.string)")
+            
+            guard let value = try? song.decode(Int.self, from: result) else
+            {
+                XCTFail()
+                return
+            }
+            
+            XCTAssertEqual(value, correct)
+            
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 60)
     }
     
 //    static var allTests = [
