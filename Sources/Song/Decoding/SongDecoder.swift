@@ -17,7 +17,7 @@ public class SongDecoder {
         userInfo=[:]
     }
 
-    func decode<T>(_ type: [T].Type, from data: Data) throws -> [T] where T : Decodable {
+    public func decode<T>(_ type: [T].Type, from data: Data) throws -> [T] where T : Decodable {
         NSLog("ARRAY DECODE CHOSEN")
         NSLog("decode<T> data: \(data as NSData)")
         self.data=data
@@ -185,7 +185,7 @@ public class SongDecoder {
         }
     }
     
-    func decode<T>(_ type: T.Type, from data: Data) throws -> T where T : Decodable
+    public func decode<T>(_ type: T.Type, from data: Data) throws -> T where T : Decodable
     {
         NSLog("decode<T> data: \(data as NSData)")
         self.data=data
@@ -245,7 +245,7 @@ public class SongDecoder {
         }
     }
     
-    func singleType<T>(_ type: T.Type) -> Bool {
+    public func singleType<T>(_ type: T.Type) -> Bool {
         if type == String.self {
             return true
         }

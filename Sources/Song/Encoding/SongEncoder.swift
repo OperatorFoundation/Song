@@ -24,7 +24,7 @@ public class SongEncoder {
         userInfo=[:]
     }
 
-    func encode<Key, Value>(_ value: [Key: Value]) throws -> Data where Key : Encodable & CodingKey, Value : Encodable {
+    public func encode<Key, Value>(_ value: [Key: Value]) throws -> Data where Key : Encodable & CodingKey, Value : Encodable {
         let map = _container(keyedBy: Key.self)
         for (key, val) in value {
             do {
@@ -37,7 +37,7 @@ public class SongEncoder {
         return map.data!
     }
     
-    func encode<Value>(_ value: [Value]) throws -> Data where Value : Encodable {
+    public func encode<Value>(_ value: [Value]) throws -> Data where Value : Encodable {
         if let ints = value as? [Int] {
             let list = self._unkeyedContainer()
             do {
@@ -113,7 +113,7 @@ public class SongEncoder {
         }
     }
     
-    func encode<Value>(_ value: Value) throws -> Data where Value : Encodable {
+    public func encode<Value>(_ value: Value) throws -> Data where Value : Encodable {
         switch value {
 //        case is Dictionary<K: Hashable, Any>:
 //            break
