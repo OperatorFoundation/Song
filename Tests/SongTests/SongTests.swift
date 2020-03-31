@@ -497,7 +497,7 @@ class SongTests: XCTestCase {
 
     func testDecodeBool() {
         let song = SongDecoder()
-        let source = "let value: Bool = true".data(using: .utf8)!
+        let source = "let value: Bool = true\n".data(using: .utf8)!
         let result = try? song.decode(Bool.self, from: source)
         let correct: Bool = true
         
