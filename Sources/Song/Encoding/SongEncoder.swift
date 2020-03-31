@@ -24,7 +24,7 @@ public class SongEncoder {
         userInfo=[:]
     }
 
-    func encode<Key, Value>(_ value: [Key: Value]) throws -> Data where Key : Encodable & CodingKey, Value : Encodable {
+    public func encode<Key, Value>(_ value: [Key: Value]) throws -> Data where Key : Encodable & CodingKey, Value : Encodable {
         let map = _container(keyedBy: Key.self)
         for (key, val) in value {
             do {
@@ -37,11 +37,11 @@ public class SongEncoder {
         return map.data!
     }
     
-    func encode<Value>(_ value: [Value]) throws -> Data where Value : Encodable {
+    public func encode<Value>(_ value: [Value]) throws -> Data where Value : Encodable {
         if let ints = value as? [Int] {
             let list = self._unkeyedContainer()
             do {
-                list.type=TypeIdentifier(names: [TypeIdentifier.TypeName(name: "Int")])
+                list.type=TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Int"))])
                 for int in ints {
                     try list.encode(int)
                 }
@@ -53,7 +53,7 @@ public class SongEncoder {
         } else if let ints = value as? [Int64] {
             let list = self._unkeyedContainer()
             do {
-                list.type=TypeIdentifier(names: [TypeIdentifier.TypeName(name: "Int64")])
+                list.type=TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Int64"))])
                 for int in ints {
                     try list.encode(int)
                 }
@@ -65,7 +65,7 @@ public class SongEncoder {
         } else if let ints = value as? [Int32] {
             let list = self._unkeyedContainer()
             do {
-                list.type=TypeIdentifier(names: [TypeIdentifier.TypeName(name: "Int32")])
+                list.type=TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Int32"))])
                 for int in ints {
                     try list.encode(int)
                 }
@@ -77,7 +77,7 @@ public class SongEncoder {
         } else if let ints = value as? [Int16] {
             let list = self._unkeyedContainer()
             do {
-                list.type=TypeIdentifier(names: [TypeIdentifier.TypeName(name: "Int16")])
+                list.type=TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Int16"))])
                 for int in ints {
                     try list.encode(int)
                 }
@@ -89,7 +89,7 @@ public class SongEncoder {
         } else if let ints = value as? [Int8] {
             let list = self._unkeyedContainer()
             do {
-                list.type=TypeIdentifier(names: [TypeIdentifier.TypeName(name: "Int8")])
+                list.type=TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Int8"))])
                 for int in ints {
                     try list.encode(int)
                 }
@@ -101,7 +101,7 @@ public class SongEncoder {
         } else {
             let list = self._unkeyedContainer()
             do {
-                list.type=TypeIdentifier(names: [TypeIdentifier.TypeName(name: String(describing: Value.self))])
+                list.type=TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name(String(describing: Value.self)))])
                 for val in value {
                     try list.encode(val)
                 }
@@ -113,7 +113,7 @@ public class SongEncoder {
         }
     }
     
-    func encode<Value>(_ value: Value) throws -> Data where Value : Encodable {
+    public func encode<Value>(_ value: Value) throws -> Data where Value : Encodable {
         switch value {
 //        case is Dictionary<K: Hashable, Any>:
 //            break

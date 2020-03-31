@@ -9,8 +9,6 @@ import Foundation
 
 import AST
 
-import Song
-
 typealias Parameter = (CodingKey, Expression)
 
 public class SongKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerProtocol {

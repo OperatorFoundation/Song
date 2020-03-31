@@ -424,7 +424,7 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
             
                 switch ini {
                     case is PatternInitializer:
-                        let pat = ini as! PatternInitializer
+                        let pat = ini 
                         let maybeEx = pat.initializerExpression
                         guard let ex = maybeEx else {
                             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Missing initializer expression"))

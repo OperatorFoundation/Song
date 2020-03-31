@@ -9,7 +9,11 @@ import Foundation
 
 import AST
 
+<<<<<<< HEAD
 import Song
+=======
+//import Song
+>>>>>>> 5f132b563ec067761a3e246c3808747cd9b726a3
 
 typealias EncodableDictionary<K,V> = Dictionary<K, V> where K: Encodable & Hashable, V: Encodable
 
@@ -28,6 +32,7 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
     }
     
     public func encode(_ value: Bool) throws {
+<<<<<<< HEAD
         self.data = wrapValue(kind: LiteralExpression.Kind.boolean(value), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: "Bool")]))
     }
     
@@ -81,6 +86,61 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
     
     public func encode(_ value: String) throws {
         self.data = wrapValue(kind: LiteralExpression.Kind.staticString(value, "\""+value+"\""), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: "String")]))
+=======
+        self.data = wrapValue(kind: LiteralExpression.Kind.boolean(value), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Bool"))]))
+    }
+    
+    public func encode(_ value: Int) throws {
+        self.data = wrapValue(kind: LiteralExpression.Kind.integer(value, String(value)), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Int"))]))
+    }
+    
+    public func encode(_ value: Int8) throws {
+        self.data = wrapValue(kind: LiteralExpression.Kind.integer(Int(value), String(value)), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Int8"))]))
+    }
+    
+    public func encode(_ value: Int16) throws {
+        self.data = wrapValue(kind: LiteralExpression.Kind.integer(Int(value), String(value)), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Int16"))]))
+    }
+    
+    public func encode(_ value: Int32) throws {
+        self.data = wrapValue(kind: LiteralExpression.Kind.integer(Int(value), String(value)), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Int32"))]))
+    }
+    
+    public func encode(_ value: Int64) throws {
+        self.data = wrapValue(kind: LiteralExpression.Kind.integer(Int(value), String(value)), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Int64"))]))
+    }
+    
+    public func encode(_ value: UInt) throws {
+        self.data = wrapValue(kind: LiteralExpression.Kind.integer(Int(value), String(value)), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("UInt"))]))
+    }
+    
+    public func encode(_ value: UInt8) throws {
+        self.data = wrapValue(kind: LiteralExpression.Kind.integer(Int(value), String(value)), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("UInt8"))]))
+    }
+    
+    public func encode(_ value: UInt16) throws {
+        self.data = wrapValue(kind: LiteralExpression.Kind.integer(Int(value), String(value)), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("UInt16"))]))
+    }
+    
+    public func encode(_ value: UInt32) throws {
+        self.data = wrapValue(kind: LiteralExpression.Kind.integer(Int(value), String(value)), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("UInt32"))]))
+    }
+    
+    public func encode(_ value: UInt64) throws {
+        self.data = wrapValue(kind: LiteralExpression.Kind.integer(Int(value), String(value)), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("UInt64"))]))
+    }
+    
+    public func encode(_ value: Float) throws {
+        self.data = wrapValue(kind: LiteralExpression.Kind.floatingPoint(Double(value), String(value)), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Float"))]))
+    }
+    
+    public func encode(_ value: Double) throws {
+        self.data = wrapValue(kind: LiteralExpression.Kind.floatingPoint(value, String(value)), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Double"))]))
+    }
+    
+    public func encode(_ value: String) throws {
+        self.data = wrapValue(kind: LiteralExpression.Kind.staticString(value, "\""+value+"\""), type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("String"))]))
+>>>>>>> 5f132b563ec067761a3e246c3808747cd9b726a3
     }
     
     public func encode<T>(_ value: T) throws where T : Encodable {
@@ -133,7 +193,11 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
     }
     
     func encode(_ value: Decimal) throws {
+<<<<<<< HEAD
         let name = IdentifierPattern(identifier: "value", typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: "Decimal")])))
+=======
+        let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Decimal"))])))
+>>>>>>> 5f132b563ec067761a3e246c3808747cd9b726a3
         let lit = literal(value)
         let initializer: PatternInitializer = PatternInitializer(pattern: name, initializerExpression: lit)
         let decl = ConstantDeclaration(initializerList: [initializer])
@@ -143,16 +207,27 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
     }
     
     public func literal(_ value: Decimal) -> Expression {
+<<<<<<< HEAD
         let constructor = IdentifierExpression(kind: IdentifierExpression.Kind.identifier("Decimal", nil))
         let uuids = value.description
         let lit = LiteralExpression(kind: LiteralExpression.Kind.staticString(uuids, "\""+uuids+"\""))
         let args = [FunctionCallExpression.Argument.namedExpression("string", lit)]
+=======
+        let constructor = IdentifierExpression(kind: IdentifierExpression.Kind.identifier(Identifier.name("Decimal"), nil))
+        let uuids = value.description
+        let lit = LiteralExpression(kind: LiteralExpression.Kind.staticString(uuids, "\""+uuids+"\""))
+        let args = [FunctionCallExpression.Argument.namedExpression(Identifier.name("string"), lit)]
+>>>>>>> 5f132b563ec067761a3e246c3808747cd9b726a3
         let result: Expression = FunctionCallExpression(postfixExpression: constructor, argumentClause: args)
         return result
     }
     
     func encode(_ value: UUID) throws {
+<<<<<<< HEAD
         let name = IdentifierPattern(identifier: "value", typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: "UUID")])))
+=======
+        let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("UUID"))])))
+>>>>>>> 5f132b563ec067761a3e246c3808747cd9b726a3
         let lit = literal(value)
         let initializer: PatternInitializer = PatternInitializer(pattern: name, initializerExpression: lit)
         let decl = ConstantDeclaration(initializerList: [initializer])
@@ -162,16 +237,27 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
     }
     
     public func literal(_ value: UUID) -> Expression {
+<<<<<<< HEAD
         let constructor = IdentifierExpression(kind: IdentifierExpression.Kind.identifier("UUID", nil))
         let uuids = value.uuidString
         let lit = LiteralExpression(kind: LiteralExpression.Kind.staticString(uuids, "\""+uuids+"\""))
         let args = [FunctionCallExpression.Argument.namedExpression("uuidString", lit)]
+=======
+        let constructor = IdentifierExpression(kind: IdentifierExpression.Kind.identifier(Identifier.name("UUID"), nil))
+        let uuids = value.uuidString
+        let lit = LiteralExpression(kind: LiteralExpression.Kind.staticString(uuids, "\""+uuids+"\""))
+        let args = [FunctionCallExpression.Argument.namedExpression(Identifier.name("uuidString"), lit)]
+>>>>>>> 5f132b563ec067761a3e246c3808747cd9b726a3
         let result: Expression = FunctionCallExpression(postfixExpression: constructor, argumentClause: args)
         return result
     }
     
     func encode(_ value: Data) throws {
+<<<<<<< HEAD
         let name = IdentifierPattern(identifier: "value", typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: "Data")])))
+=======
+        let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Data"))])))
+>>>>>>> 5f132b563ec067761a3e246c3808747cd9b726a3
         let lit = literal(value)
         let initializer: PatternInitializer = PatternInitializer(pattern: name, initializerExpression: lit)
         let decl = ConstantDeclaration(initializerList: [initializer])
@@ -181,16 +267,27 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
     }
     
     public func literal(_ value: Data) -> Expression {
+<<<<<<< HEAD
         let constructor = IdentifierExpression(kind: IdentifierExpression.Kind.identifier("Data", nil))
         let b64s = value.base64EncodedString()
         let b64lit = LiteralExpression(kind: LiteralExpression.Kind.staticString(b64s, "\""+b64s+"\""))
         let args = [FunctionCallExpression.Argument.namedExpression("base64Encoded", b64lit)]
+=======
+        let constructor = IdentifierExpression(kind: IdentifierExpression.Kind.identifier(Identifier.name("Data"), nil))
+        let b64s = value.base64EncodedString()
+        let b64lit = LiteralExpression(kind: LiteralExpression.Kind.staticString(b64s, "\""+b64s+"\""))
+        let args = [FunctionCallExpression.Argument.namedExpression(Identifier.name("base64Encoded"), b64lit)]
+>>>>>>> 5f132b563ec067761a3e246c3808747cd9b726a3
         let lit: Expression = FunctionCallExpression(postfixExpression: constructor, argumentClause: args)
         return lit
     }
     
     private func wrapValue(kind: LiteralExpression.Kind, type: Type) -> Data {
+<<<<<<< HEAD
         let name = IdentifierPattern(identifier: "value", typeAnnotation: TypeAnnotation(type: type))
+=======
+        let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: TypeAnnotation(type: type))
+>>>>>>> 5f132b563ec067761a3e246c3808747cd9b726a3
         let value = literal(kind: kind)
         let initializer: PatternInitializer = PatternInitializer(pattern: name, initializerExpression: value)
         let decl = ConstantDeclaration(initializerList: [initializer])
@@ -201,7 +298,11 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
     }
 
     private func wrapDictionary(keyType: String, valueType: String, literal: Expression) -> Data {
+<<<<<<< HEAD
         let name = IdentifierPattern(identifier: "value", typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: "Dictionary<\(keyType), \(valueType)>")])))
+=======
+        let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Dictionary<\(keyType), \(valueType)>"))])))
+>>>>>>> 5f132b563ec067761a3e246c3808747cd9b726a3
         let initializer: PatternInitializer = PatternInitializer(pattern: name, initializerExpression: literal)
         let decl = ConstantDeclaration(initializerList: [initializer])
         let top = TopLevelDeclaration(statements: [decl], comments: [], shebang: nil)
