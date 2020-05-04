@@ -154,24 +154,24 @@ public class SongKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerPro
     }
     
     func literal(containerType: String, contents: [(K, Expression)]) -> Expression {
-        let constructor = IdentifierExpression(kind: IdentifierExpression.Kind.identifier(containerType.description, nil))
+        let constructor = IdentifierExpression(kind: IdentifierExpression.Kind.identifier(Identifier.name(containerType.description), nil))
         var args: [FunctionCallExpression.Argument] = []
         for (key, value) in contents {
-            args.append(FunctionCallExpression.Argument.namedExpression(key.stringValue, value))
+            args.append(FunctionCallExpression.Argument.namedExpression(Identifier.name(key.stringValue), value))
         }
         let lit: Expression = FunctionCallExpression(postfixExpression: constructor, argumentClause: args)
         return lit
     }
 
     func wrapValue(containerType: String, contents: [(K, Expression)]) -> Data {
-        let constructor = IdentifierExpression(kind: IdentifierExpression.Kind.identifier(containerType.description, nil))
+        let constructor = IdentifierExpression(kind: IdentifierExpression.Kind.identifier(Identifier.name(containerType.description), nil))
         var args: [FunctionCallExpression.Argument] = []
         for (key, value) in contents {
-            args.append(FunctionCallExpression.Argument.namedExpression(key.stringValue, value))
+            args.append(FunctionCallExpression.Argument.namedExpression(Identifier.name(key.stringValue), value))
         }
         let lit: Expression = FunctionCallExpression(postfixExpression: constructor, argumentClause: args)
         
-        let name = IdentifierPattern(identifier: "value", typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: containerType.description)])))
+        let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name(containerType.description))])))
         let initializer: PatternInitializer = PatternInitializer(pattern: name, initializerExpression: lit)
         let decl = ConstantDeclaration(initializerList: [initializer])
         let top = TopLevelDeclaration(statements: [decl], comments: [], shebang: nil)

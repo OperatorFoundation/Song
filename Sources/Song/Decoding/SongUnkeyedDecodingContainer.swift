@@ -462,22 +462,22 @@ public class SongUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     }
     
     public func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
-        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type"))
+        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 29"))
 
     }
     
     public func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {
-        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type"))
+        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 30"))
 
     }
     
     public func nestedUnkeyedContainer() throws -> UnkeyedDecodingContainer {
-        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type"))
+        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 31"))
 
     }
     
     public func superDecoder() throws -> Decoder {
-        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type"))
+        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 32"))
 
     }
 }

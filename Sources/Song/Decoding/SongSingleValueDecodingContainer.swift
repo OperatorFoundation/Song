@@ -395,12 +395,12 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
         NSLog("Decoding string!!!")
         guard let d = data else {
             NSLog("No data")
-            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type"))
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 23"))
         }
         
         guard let ast = getAST(data: d) else {
             NSLog("No AST")
-            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type"))
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 24"))
         }
         
         print(ast)
@@ -445,7 +445,91 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
     }
     
     public func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
+        do {
+            let lit = try unwrapStruct()
+            
+            return try makeStruct(type, lit)
+        } catch {
+            throw error
+        }
+        
         NSLog("GENERAL DECODE")
-        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type"))
+        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 25"))
+    }
+    
+    public func unwrapStruct() throws -> FunctionCallExpression {
+        NSLog("Decoding string!!!")
+        guard let d = data else {
+            NSLog("No data")
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 26"))
+        }
+        
+        guard let ast = getAST(data: d) else {
+            NSLog("No AST")
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 27"))
+        }
+        
+        print(ast)
+
+        guard ast.statements.count == 1 else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Wrong number of top level statements"))
+        }
+        
+        let stmt = ast.statements[0]
+        
+        switch stmt {
+            case is ConstantDeclaration:
+                let decl = stmt as! ConstantDeclaration
+                let inis = decl.initializerList
+                guard inis.count == 1 else {
+                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Wrong number of initializers"))
+                    
+                }
+            
+                let ini = inis[0]
+            
+                switch ini {
+                    case is PatternInitializer:
+                        let pat = ini
+                        let maybeEx = pat.initializerExpression
+                        guard let ex = maybeEx else {
+                            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Missing initializer expression"))
+                        }
+                        switch ex {
+                            case is FunctionCallExpression:
+                                let f = ex as! FunctionCallExpression
+                                return f
+                            default:
+                                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer expression is not literal expression"))
+                        }
+                    default:
+                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer was not pattern initializer"))
+            }
+            default:
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Top level statement was not constant declaration"))
+        }
+    }
+    
+    func makeStruct<T>(_ type: T.Type, _ lit: FunctionCallExpression) throws -> T where T : Decodable {
+        do {
+            let name = lit.postfixExpression.textDescription
+            print(name)
+            
+            let song = self.decoder as! SongDecoder
+            
+            return try type.init(from: song)
+//            let kind = lit.kind
+//            switch kind {
+//            case LiteralExpression.Kind.staticString(let value, _):
+//                return value
+//            default:
+//                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Literal expression was not of kind int"))
+//            }
+        } catch {
+            print(error)
+            throw error
+        }
+        
+        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 28"))
     }
 }

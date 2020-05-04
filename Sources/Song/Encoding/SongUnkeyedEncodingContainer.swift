@@ -111,11 +111,7 @@ public class SongUnkeyedEncodingContainer: UnkeyedEncodingContainer {
     }
     
     func wrapValue(type: Type, contents: [Expression]) -> Data {
-<<<<<<< HEAD
-        let name = IdentifierPattern(identifier: "value", typeAnnotation: TypeAnnotation(type: ArrayType(elementType: type)))
-=======
         let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: TypeAnnotation(type: ArrayType(elementType: type)))
->>>>>>> 5f132b563ec067761a3e246c3808747cd9b726a3
         let value = LiteralExpression(kind: LiteralExpression.Kind.array(contents))
         let initializer: PatternInitializer = PatternInitializer(pattern: name, initializerExpression: value)
         let decl = ConstantDeclaration(initializerList: [initializer])

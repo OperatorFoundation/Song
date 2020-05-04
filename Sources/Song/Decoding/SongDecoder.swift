@@ -178,7 +178,7 @@ public class SongDecoder {
                 }
                 return results as! [T]
             } else {
-                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type"))
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 1"))
             }
         } catch {
             throw error
@@ -235,13 +235,19 @@ public class SongDecoder {
                     let result: UInt8 = try single.decode(UInt8.self)
                     return result as! T
                 } else {
-                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type"))
+                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 2"))
                 }
             } catch {
                 throw error
             }
         } else {
-            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type"))
+            let single = self._singleValueContainer()
+            do {
+                let result: T = try single.decode(type)
+                return result
+            } catch {
+                throw error
+            }
         }
     }
     

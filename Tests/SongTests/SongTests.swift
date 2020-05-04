@@ -1,7 +1,6 @@
 import XCTest
 @testable import Song
 import Foundation
-import Composition
 
 class SongTests: XCTestCase {
     func testEncodeString() {
@@ -411,6 +410,139 @@ class SongTests: XCTestCase {
         XCTAssertNotNil(result)
         XCTAssertEqual(result!, correct)
     }
+    
+    func testDecodeStructStringField() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct
+        // results.
+        let song = SongDecoder()
+        
+        struct ExampleStruct: Codable, Equatable {
+            let value: String
+        }
+        
+        guard let input = "let value: ExampleStruct = ExampleStruct(value: \"example string\")".data(using: .utf8) else
+        {
+            XCTFail()
+            return
+        }
+        guard let result = try? song.decode(ExampleStruct.self, from: input) else
+        {
+            XCTFail()
+            return
+        }
+        let correct = ExampleStruct(value: "example string")
+                
+        XCTAssertEqual(result, correct)
+    }
+    
+    func testDecodeStructIntField() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct
+        // results.
+        let song = SongDecoder()
+        
+        struct ExampleStruct: Codable, Equatable {
+            let value: Int
+        }
+        
+        guard let input = "let value: ExampleStruct = ExampleStruct(value: 1)".data(using: .utf8) else
+        {
+            XCTFail()
+            return
+        }
+        guard let result = try? song.decode(ExampleStruct.self, from: input) else
+        {
+            XCTFail()
+            return
+        }
+        let correct = ExampleStruct(value: 1)
+                
+        XCTAssertEqual(result, correct)
+    }
+    
+    func testDecodeStructUIntField() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct
+        // results.
+        let song = SongDecoder()
+        
+        struct ExampleStruct: Codable, Equatable {
+            let value: UInt
+        }
+        
+        guard let input = "let value: ExampleStruct = ExampleStruct(value: 1)".data(using: .utf8) else
+        {
+            XCTFail()
+            return
+        }
+        guard let result = try? song.decode(ExampleStruct.self, from: input) else
+        {
+            XCTFail()
+            return
+        }
+        let correct = ExampleStruct(value: 1)
+                
+        XCTAssertEqual(result, correct)
+    }
+    
+    func testDecodeStructIntFields() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct
+        // results.
+        let song = SongDecoder()
+        
+        struct ExampleStruct: Codable, Equatable {
+            let int: Int
+            let int8: Int8
+            let int16: Int16
+            let int32: Int32
+            let int64: Int64
+        }
+        
+        guard let input = "let value: ExampleStruct = ExampleStruct(int: 1, int8: 2, int16: 3, int32: 4, int64: 5)".data(using: .utf8) else
+        {
+            XCTFail()
+            return
+        }
+        guard let result = try? song.decode(ExampleStruct.self, from: input) else
+        {
+            XCTFail()
+            return
+        }
+        let correct = ExampleStruct(int: 1, int8: 2, int16: 3, int32: 4, int64: 5)
+                
+        XCTAssertEqual(result, correct)
+    }
+ 
+   func testDecodeStructUIntFields() {
+       // This is an example of a functional test case.
+       // Use XCTAssert and related functions to verify your tests produce the correct
+       // results.
+       let song = SongDecoder()
+       
+       struct ExampleStruct: Codable, Equatable {
+           let uint: UInt
+           let uint8: UInt8
+           let uint16: UInt16
+           let uint32: UInt32
+           let uint64: UInt64
+       }
+       
+       guard let input = "let value: ExampleStruct = ExampleStruct(uint: 1, uint8: 2, uint16: 3, uint32: 4, uint64: 5)".data(using: .utf8) else
+       {
+           XCTFail()
+           return
+       }
+       guard let result = try? song.decode(ExampleStruct.self, from: input) else
+       {
+           XCTFail()
+           return
+       }
+       let correct = ExampleStruct(uint: 1, uint8: 2, uint16: 3, uint32: 4, uint64: 5)
+               
+       XCTAssertEqual(result, correct)
+   }
     
     func testEncodeClass() {
         let song = SongEncoder()
@@ -927,34 +1059,34 @@ class SongTests: XCTestCase {
         XCTAssertEqual(r, correct)
     }
     
-    func testChoir()
-    {
-        let song = SongDecoder()
-        
-        let source = "let result = 123"
-        let correct = 123
-        
-        let expectation = XCTestExpectation(description: "remote call succeeded")
-        
-        remoteCall(code: source)
-        {
-            result in
-            
-            print("result: \(result.string)")
-            
-            guard let value = try? song.decode(Int.self, from: result) else
-            {
-                XCTFail()
-                return
-            }
-            
-            XCTAssertEqual(value, correct)
-            
-            expectation.fulfill()
-        }
-        
-        wait(for: [expectation], timeout: 60)
-    }
+//    func testChoir()
+//    {
+//        let song = SongDecoder()
+//        
+//        let source = "let result = 123"
+//        let correct = 123
+//        
+//        let expectation = XCTestExpectation(description: "remote call succeeded")
+//        
+//        remoteCall(code: source)
+//        {
+//            result in
+//            
+//            print("result: \(result.string)")
+//            
+//            guard let value = try? song.decode(Int.self, from: result) else
+//            {
+//                XCTFail()
+//                return
+//            }
+//            
+//            XCTAssertEqual(value, correct)
+//            
+//            expectation.fulfill()
+//        }
+//        
+//        wait(for: [expectation], timeout: 60)
+//    }
     
 //    static var allTests = [
 //        ("testExample", testExample),
