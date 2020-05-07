@@ -132,8 +132,28 @@ public class SongKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerPro
         contents.append(tup)
     }
     
+    public func literal(_ value: Data) -> Expression {
+        let constructor = IdentifierExpression(kind: IdentifierExpression.Kind.identifier(Identifier.name("Data"), nil))
+        let b64s = value.base64EncodedString()
+        let b64lit = LiteralExpression(kind: LiteralExpression.Kind.staticString(b64s, "\""+b64s+"\""))
+        let args = [FunctionCallExpression.Argument.namedExpression(Identifier.name("base64Encoded"), b64lit)]
+        let lit: Expression = FunctionCallExpression(postfixExpression: constructor, argumentClause: args)
+        return lit
+    }
+    
     public func encode<T>(_ value: T, forKey key: K) throws where T : Encodable {
-        
+        switch value
+        {
+            case is Data:
+                guard let data = value as? Data else
+                {
+                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 300"))
+                }
+                let lit = literal(data)
+                contents.append((key, lit))
+            default:
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 200"))
+        }
     }
     
     public func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type, forKey key: K) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {

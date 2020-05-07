@@ -8,6 +8,8 @@
 import Foundation
 
 import AST
+import Parser
+import Source
 
 public class SongUnkeyedEncodingContainer: UnkeyedEncodingContainer {
     var encoder: Encoder
@@ -95,9 +97,80 @@ public class SongUnkeyedEncodingContainer: UnkeyedEncodingContainer {
     }
     
     public  func encode<T>(_ value: T) throws where T : Encodable {
-        
+        let song = SongEncoder()
+        let encoded = try song.encode(value)
+        guard let ast = getAST(data: encoded) else
+        {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 100"))
+        }
+        let result = try unwrapStruct(data: encoded, codingPath: [])
+        contents.append(result)
     }
     
+    func getAST(data: Data) -> TopLevelDeclaration? {
+        guard let s = String(bytes: data, encoding: .utf8) else {
+            return nil
+        }
+        
+        let source = SourceFile(content: s)
+        let parser = Parser(source: source)
+        
+        guard let topLevelDecl = try? parser.parse() else {
+            return nil
+        }
+        
+        return topLevelDecl
+    }
+    
+    func unwrapStruct(data: Data, codingPath: [CodingKey]) throws -> FunctionCallExpression {
+        NSLog("Decoding string!!!")
+        
+        guard let ast = getAST(data: data) else {
+            NSLog("No AST")
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 27"))
+        }
+        
+        print(ast)
+
+        guard ast.statements.count == 1 else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Wrong number of top level statements"))
+        }
+        
+        let stmt = ast.statements[0]
+        
+        switch stmt {
+            case is ConstantDeclaration:
+                let decl = stmt as! ConstantDeclaration
+                let inis = decl.initializerList
+                guard inis.count == 1 else {
+                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Wrong number of initializers"))
+                    
+                }
+            
+                let ini = inis[0]
+            
+                switch ini {
+                    case is PatternInitializer:
+                        let pat = ini
+                        let maybeEx = pat.initializerExpression
+                        guard let ex = maybeEx else {
+                            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Missing initializer expression"))
+                        }
+                        switch ex {
+                            case is FunctionCallExpression:
+                                let f = ex as! FunctionCallExpression
+                                return f
+                            default:
+                                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer expression is not literal expression"))
+                        }
+                    default:
+                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer was not pattern initializer"))
+            }
+            default:
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Top level statement was not constant declaration"))
+        }
+    }
+
     public func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type) -> KeyedEncodingContainer<NestedKey> where NestedKey : CodingKey {
         return KeyedEncodingContainer<NestedKey>(SongKeyedEncodingContainer(encoder: encoder, codingPath: codingPath, containerType: nil))
     }

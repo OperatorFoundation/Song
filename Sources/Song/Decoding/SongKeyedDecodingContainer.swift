@@ -24,7 +24,7 @@ public class SongKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerPro
         self.decoder=decoder
         self.codingPath=codingPath
         self.data=data
-        self.expression = try? unwrapStruct(data: self.data, codingPath: self.codingPath)
+        self.expression = try? Song.unwrapStruct(data: self.data, codingPath: self.codingPath)
     }
     
     public func contains(_ key: K) -> Bool {
@@ -143,8 +143,38 @@ public class SongKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerPro
     }
     
     public func decode<T>(_ type: T.Type, forKey key: K) throws -> T where T : Decodable {
-        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 18"))
+        guard let result = try unwrapStruct(T.self, forKey: key) else
+        {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 18"))
+        }
+        return result
+    }
+    
+    public func unwrapStruct<T>(_ type: T.Type, forKey key: K) throws -> T? where T : Decodable
+    {
+        guard let exp = self.expression else { return nil }
+        guard let args = exp.argumentClause else { return nil }
+        let arg = findNamedArg(args: args, key: key)
+        guard let value = arg as? FunctionCallExpression else { return nil }
 
+        guard let identifierEx = value.postfixExpression as? IdentifierExpression else { return nil }
+        switch identifierEx.kind
+        {
+            case .identifier(let identifier, _):
+                let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Data"))])))
+                let initializer: PatternInitializer = PatternInitializer(pattern: name, initializerExpression: value)
+                let decl = ConstantDeclaration(initializerList: [initializer])
+                let top = TopLevelDeclaration(statements: [decl], comments: [], shebang: nil)
+                let s = top.textDescription
+                guard let data = s.data(using: .utf8) else { return nil }
+            
+                let song = SongDecoder()
+                return try song.decode(type, from: data)
+            default:
+                return nil
+        }
+        
+        return nil
     }
     
     public func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type, forKey key: K) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {

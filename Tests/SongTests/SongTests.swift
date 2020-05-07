@@ -203,9 +203,6 @@ class SongTests: XCTestCase {
     }
 
     func testEncodeData() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
         let song = SongEncoder()
         
         let data = Data(base64Encoded: "c3RyaW5n")
@@ -222,6 +219,18 @@ class SongTests: XCTestCase {
         XCTAssertEqual(result!, correct)
     }
 
+    func testDecodeData() {
+        let song = SongDecoder()
+        
+        let correct = Data(base64Encoded: "c3RyaW5n")
+        let input = "let value: Data = Data(base64Encoded: \"c3RyaW5n\")".data(using: .utf8)!
+        let result = try? song.decode(Data.self, from: input)
+
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result!, correct)
+    }
+
+    
     func testEncodeUUID() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
@@ -386,6 +395,196 @@ class SongTests: XCTestCase {
         XCTAssertEqual(result!, correct)
     }
 
+    func testEncodeStructArray() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct
+        // results.
+        let song = SongEncoder()
+        
+        struct ExampleStruct: Codable {
+            let value: String
+        }
+        
+        let ex = ExampleStruct(value: "example string")
+        let arr = [ex]
+        let result = try? song.encode(arr)
+        let correct = "let value: Array<ExampleStruct> = [ExampleStruct(value: \"example string\")]".data(using: .utf8)!
+        
+        NSLog("result \(result! as NSData)")
+        NSLog("correct \(correct as NSData)")
+        
+        NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
+        NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
+        
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result!, correct)
+    }
+    
+    func testEncodeRawPacket()
+    {
+        struct RawPacket: Codable {
+            let connection: String
+            let ip_packet: Data
+            let tcp_packet: Data
+            let payload: Data
+            let timestamp: Int
+            let allow_block: Bool
+            let in_out: Bool
+            let handshake: Bool
+        }
+
+        let song = SongEncoder()
+                
+        let ex = RawPacket(
+            connection: "abcd",
+            ip_packet: Data(repeating: 0, count: 2),
+            tcp_packet: Data(repeating: 1, count: 4),
+            payload: Data(repeating: 2, count: 8),
+            timestamp: 1234,
+            allow_block: true,
+            in_out: false,
+            handshake: true
+        )
+        
+        print(ex)
+        
+        let result = try? song.encode(ex)
+        let correct = "let value: RawPacket = RawPacket(connection: \"abcd\", ip_packet: Data(base64Encoded: \"AAA=\"), tcp_packet: Data(base64Encoded: \"AQEBAQ==\"), payload: Data(base64Encoded: \"AgICAgICAgI=\"), timestamp: 1234, allow_block: true, in_out: false, handshake: true)".data(using: .utf8)!
+        
+        NSLog("result \(result! as NSData)")
+        NSLog("incorrect \(correct as NSData)")
+        
+        NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
+        NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
+        
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result!, correct)
+    }
+    
+    func testDecodeRawPacket()
+    {
+        struct RawPacket: Codable, Equatable {
+            let connection: String
+            let ip_packet: Data
+            let tcp_packet: Data
+            let payload: Data
+            let timestamp: Int
+            let allow_block: Bool
+            let in_out: Bool
+            let handshake: Bool
+        }
+
+        let song = SongDecoder()
+                
+        let correct = RawPacket(
+            connection: "abcd",
+            ip_packet: Data(repeating: 0, count: 2),
+            tcp_packet: Data(repeating: 1, count: 4),
+            payload: Data(repeating: 2, count: 8),
+            timestamp: 1234,
+            allow_block: true,
+            in_out: false,
+            handshake: true
+        )
+
+        let input = "let value: RawPacket = RawPacket(connection: \"abcd\", ip_packet: Data(base64Encoded: \"AAA=\"), tcp_packet: Data(base64Encoded: \"AQEBAQ==\"), payload: Data(base64Encoded: \"AgICAgICAgI=\"), timestamp: 1234, allow_block: true, in_out: false, handshake: true)".data(using: .utf8)!
+        
+        let maybeResult = try? song.decode(RawPacket.self, from: input)
+                        
+        XCTAssertNotNil(maybeResult)
+        
+        guard let result = maybeResult else
+        {
+            XCTFail()
+            return
+        }
+        
+        XCTAssertEqual(result, correct)
+    }
+    
+    func testEncodeRawPackets()
+    {
+        struct RawPacket: Codable {
+            let connection: String
+            let ip_packet: Data
+            let tcp_packet: Data
+            let payload: Data
+            let timestamp: Int
+            let allow_block: Bool
+            let in_out: Bool
+            let handshake: Bool
+        }
+
+        let song = SongEncoder()
+                
+        let ex = RawPacket(
+            connection: "abcd",
+            ip_packet: Data(repeating: 0, count: 2),
+            tcp_packet: Data(repeating: 1, count: 4),
+            payload: Data(repeating: 2, count: 8),
+            timestamp: 1234,
+            allow_block: true,
+            in_out: false,
+            handshake: true
+        )
+        
+        print(ex)
+        
+        let arr = [ex]
+        let result = try? song.encode(arr)
+        let correct = "let value: Array<RawPacket> = [RawPacket(connection: \"abcd\", ip_packet: Data(base64Encoded: \"AAA=\"), tcp_packet: Data(base64Encoded: \"AQEBAQ==\"), payload: Data(base64Encoded: \"AgICAgICAgI=\"), timestamp: 1234, allow_block: true, in_out: false, handshake: true)]".data(using: .utf8)!
+
+        NSLog("result \(result! as NSData)")
+        NSLog("correct \(correct as NSData)")
+        
+        NSLog("result  \(String(bytes: result!, encoding: .utf8)!)")
+        NSLog("correct \(String(bytes: correct, encoding: .utf8)!)")
+        
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result!, correct)
+    }
+    
+    func testDecodeRawPackets()
+    {
+        struct RawPacket: Codable, Equatable {
+            let connection: String
+            let ip_packet: Data
+            let tcp_packet: Data
+            let payload: Data
+            let timestamp: Int
+            let allow_block: Bool
+            let in_out: Bool
+            let handshake: Bool
+        }
+
+        let song = SongDecoder()
+                
+        let correct = [RawPacket(
+            connection: "abcd",
+            ip_packet: Data(repeating: 0, count: 2),
+            tcp_packet: Data(repeating: 1, count: 4),
+            payload: Data(repeating: 2, count: 8),
+            timestamp: 1234,
+            allow_block: true,
+            in_out: false,
+            handshake: true
+        )]
+
+        let input = "let value: Array<RawPacket> = [RawPacket(connection: \"abcd\", ip_packet: Data(base64Encoded: \"AAA=\"), tcp_packet: Data(base64Encoded: \"AQEBAQ==\"), payload: Data(base64Encoded: \"AgICAgICAgI=\"), timestamp: 1234, allow_block: true, in_out: false, handshake: true)]".data(using: .utf8)!
+        
+        let maybeResult = try? song.decode([RawPacket].self, from: input)
+                        
+        XCTAssertNotNil(maybeResult)
+        
+        guard let result = maybeResult else
+        {
+            XCTFail()
+            return
+        }
+        
+        XCTAssertEqual(result, correct)
+    }
+    
     func testEncodeStruct2() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct

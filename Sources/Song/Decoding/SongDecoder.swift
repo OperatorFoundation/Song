@@ -192,7 +192,11 @@ public class SongDecoder {
         if singleType(type) {
             let single = self._singleValueContainer()
             do {
-                if type == String.self {
+                if type == Data.self {
+                    let result: Data = try single.decode(Data.self)
+                    return result as! T
+                }
+                else if type == String.self {
                     let result: String = try single.decode(String.self)
                     return result as! T
                 } else if type == Bool.self {
@@ -252,6 +256,10 @@ public class SongDecoder {
     }
     
     public func singleType<T>(_ type: T.Type) -> Bool {
+        if type == Data.self {
+            return true
+        }
+        
         if type == String.self {
             return true
         }

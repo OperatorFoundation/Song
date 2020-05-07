@@ -447,14 +447,75 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
     public func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
         do {
             let lit = try unwrapStruct()
+            guard let exp = lit.postfixExpression as? IdentifierExpression else
+            {
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 500"))
+            }
             
-            return try makeStruct(type, lit)
+            switch exp.kind
+            {
+                case .identifier(let identifier, _):
+                    switch identifier
+                    {
+                        case .name(let name):
+                            switch name
+                            {
+                                case "Data":
+                                    guard let result = try literal(Data.self, lit) else
+                                    {
+                                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 503"))
+                                    }
+                                
+                                    guard let typedResult = result as? T else
+                                    {
+                                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 504"))
+                                    }
+                                
+                                    return typedResult
+                                default:
+                                    return try makeStruct(type, lit)
+                            }
+                        default:
+                            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 502"))
+                        }
+                default:
+                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 501"))
+            }
         } catch {
             throw error
         }
         
         NSLog("GENERAL DECODE")
         throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 25"))
+    }
+    
+    func literal(_ type: Data.Type, _ lit: FunctionCallExpression) throws -> Data? {
+        guard let args = lit.argumentClause else { return nil }
+        guard args.count == 1 else { return nil }
+        let arg = args[0]
+        switch arg
+        {
+            case .namedExpression(let identifier, let value):
+                switch identifier
+                {
+                    case .name(let name):
+                        guard name == "base64Encoded" else { return nil }
+                        guard let valueLit = value as? LiteralExpression else { return nil }
+                        switch valueLit.kind
+                        {
+                            case .staticString(let stringValue, _):
+                                return Data(base64Encoded: stringValue)
+                            default:
+                                return nil
+                        }
+                    default:
+                        return nil
+                }
+            default:
+                return nil
+        }
+        
+        return nil
     }
     
     public func unwrapStruct() throws -> FunctionCallExpression {
