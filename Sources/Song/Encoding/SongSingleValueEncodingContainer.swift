@@ -198,6 +198,19 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
         let d = s.data(using: .utf8)
         return d!
     }
+    
+    public func wrapStruct<T>(value: FunctionCallExpression, type: T.Type) -> Data {
+        let typename = "\(type)"
+        let typeid = TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name(typename))])
+        let typean = TypeAnnotation(type: typeid)
+        let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: typean)
+        let initializer: PatternInitializer = PatternInitializer(pattern: name, initializerExpression: value)
+        let decl = ConstantDeclaration(initializerList: [initializer])
+        let top = TopLevelDeclaration(statements: [decl], comments: [], shebang: nil)
+        let s = top.textDescription
+        let d = s.data(using: .utf8)
+        return d!
+    }
 
     private func wrapDictionary(keyType: String, valueType: String, literal: Expression) -> Data {
         let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Dictionary<\(keyType), \(valueType)>"))])))

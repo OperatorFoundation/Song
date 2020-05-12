@@ -161,20 +161,26 @@ public class SongKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerPro
         switch identifierEx.kind
         {
             case .identifier(let identifier, _):
-                let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Data"))])))
-                let initializer: PatternInitializer = PatternInitializer(pattern: name, initializerExpression: value)
-                let decl = ConstantDeclaration(initializerList: [initializer])
-                let top = TopLevelDeclaration(statements: [decl], comments: [], shebang: nil)
-                let s = top.textDescription
-                guard let data = s.data(using: .utf8) else { return nil }
-            
-                let song = SongDecoder()
-                return try song.decode(type, from: data)
+                switch identifier
+                {
+                    case .name(let name):
+                        guard name == "\(T.self)" else { return nil }
+                    
+                        let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Data"))])))
+                        let initializer: PatternInitializer = PatternInitializer(pattern: name, initializerExpression: value)
+                        let decl = ConstantDeclaration(initializerList: [initializer])
+                        let top = TopLevelDeclaration(statements: [decl], comments: [], shebang: nil)
+                        let s = top.textDescription
+                        guard let data = s.data(using: .utf8) else { return nil }
+                    
+                        let song = SongDecoder()
+                        return try song.decode(type, from: data)
+                    default:
+                        return nil
+                }
             default:
                 return nil
         }
-        
-        return nil
     }
     
     public func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type, forKey key: K) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {
@@ -355,25 +361,18 @@ func unwrapStruct(data: Data, codingPath: [CodingKey]) throws -> FunctionCallExp
                 
             }
         
-            let ini = inis[0]
-        
-            switch ini {
-                case is PatternInitializer:
-                    let pat = ini
-                    let maybeEx = pat.initializerExpression
-                    guard let ex = maybeEx else {
-                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Missing initializer expression"))
-                    }
-                    switch ex {
-                        case is FunctionCallExpression:
-                            let f = ex as! FunctionCallExpression
-                            return f
-                        default:
-                            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer expression is not literal expression"))
-                    }
+            let pat: PatternInitializer = inis[0]
+            let maybeEx = pat.initializerExpression
+            guard let ex = maybeEx else {
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Missing initializer expression"))
+            }
+            switch ex {
+                case is FunctionCallExpression:
+                    let f = ex as! FunctionCallExpression
+                    return f
                 default:
-                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer was not pattern initializer"))
-        }
+                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer expression is not literal expression"))
+            }
         default:
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Top level statement was not constant declaration"))
     }

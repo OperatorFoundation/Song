@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Datable
 
 import AST
 import Parser
@@ -420,25 +421,19 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
                     
                 }
             
-                let ini = inis[0]
+                let pat: PatternInitializer = inis[0]
             
-                switch ini {
-                    case is PatternInitializer:
-                        let pat = ini 
-                        let maybeEx = pat.initializerExpression
-                        guard let ex = maybeEx else {
-                            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Missing initializer expression"))
-                        }
-                        switch ex {
-                            case is LiteralExpression:
-                                let lit = ex as! LiteralExpression
-                                return lit
-                            default:
-                                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer expression is not literal expression"))
-                        }
+                let maybeEx = pat.initializerExpression
+                guard let ex = maybeEx else {
+                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Missing initializer expression"))
+                }
+                switch ex {
+                    case is LiteralExpression:
+                        let lit = ex as! LiteralExpression
+                        return lit
                     default:
-                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer was not pattern initializer"))
-            }
+                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer expression is not literal expression"))
+                }
             default:
                 throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Top level statement was not constant declaration"))
         }
@@ -447,46 +442,48 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
     public func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
         do {
             let lit = try unwrapStruct()
-            guard let exp = lit.postfixExpression as? IdentifierExpression else
-            {
-                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 500"))
-            }
-            
-            switch exp.kind
-            {
-                case .identifier(let identifier, _):
-                    switch identifier
-                    {
-                        case .name(let name):
-                            switch name
-                            {
-                                case "Data":
-                                    guard let result = try literal(Data.self, lit) else
-                                    {
-                                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 503"))
-                                    }
-                                
-                                    guard let typedResult = result as? T else
-                                    {
-                                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 504"))
-                                    }
-                                
-                                    return typedResult
-                                default:
-                                    return try makeStruct(type, lit)
-                            }
-                        default:
-                            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 502"))
-                        }
-                default:
-                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 501"))
-            }
+            return try literal(T.self, lit)
         } catch {
             throw error
         }
+    }
+    
+    public func literal<T>(_ type: T.Type, _ lit: FunctionCallExpression) throws -> T where T : Decodable
+    {
+        guard let exp = lit.postfixExpression as? IdentifierExpression else
+        {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 500"))
+        }
         
-        NSLog("GENERAL DECODE")
-        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 25"))
+        switch exp.kind
+        {
+            case .identifier(let identifier, _):
+                switch identifier
+                {
+                    case .name(let name):
+                        switch name
+                        {
+                            case "Data":
+                                guard let result = try literal(Data.self, lit) else
+                                {
+                                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 503"))
+                                }
+                            
+                                guard let typedResult = result as? T else
+                                {
+                                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 504"))
+                                }
+                            
+                                return typedResult
+                            default:
+                                return try makeStruct(type, lit)
+                        }
+                    default:
+                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 502"))
+                    }
+            default:
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 501"))
+        }
     }
     
     func literal(_ type: Data.Type, _ lit: FunctionCallExpression) throws -> Data? {
@@ -514,8 +511,6 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
             default:
                 return nil
         }
-        
-        return nil
     }
     
     public func unwrapStruct() throws -> FunctionCallExpression {
@@ -547,25 +542,19 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
                     
                 }
             
-                let ini = inis[0]
+                let pat: PatternInitializer = inis[0]
             
-                switch ini {
-                    case is PatternInitializer:
-                        let pat = ini
-                        let maybeEx = pat.initializerExpression
-                        guard let ex = maybeEx else {
-                            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Missing initializer expression"))
-                        }
-                        switch ex {
-                            case is FunctionCallExpression:
-                                let f = ex as! FunctionCallExpression
-                                return f
-                            default:
-                                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer expression is not literal expression"))
-                        }
+                let maybeEx = pat.initializerExpression
+                guard let ex = maybeEx else {
+                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Missing initializer expression"))
+                }
+                switch ex {
+                    case is FunctionCallExpression:
+                        let f = ex as! FunctionCallExpression
+                        return f
                     default:
-                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer was not pattern initializer"))
-            }
+                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer expression is not literal expression"))
+                }
             default:
                 throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Top level statement was not constant declaration"))
         }
@@ -575,10 +564,16 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
         do {
             let name = lit.postfixExpression.textDescription
             print(name)
-            
+                        
             let song = self.decoder as! SongDecoder
+            let single = SongEncoder()._singleValueContainer()
+            let litData = single.wrapStruct(value: lit, type: type)
+            let litString = litData.string
+            print(litString)
+//            let result = try song.decode(T.self, from: litData)
+            let result = try T.init(from: song)
+            return result
             
-            return try type.init(from: song)
 //            let kind = lit.kind
 //            switch kind {
 //            case LiteralExpression.Kind.staticString(let value, _):
@@ -590,7 +585,5 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
             print(error)
             throw error
         }
-        
-        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 28"))
     }
 }

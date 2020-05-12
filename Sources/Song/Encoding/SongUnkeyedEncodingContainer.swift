@@ -99,10 +99,10 @@ public class SongUnkeyedEncodingContainer: UnkeyedEncodingContainer {
     public  func encode<T>(_ value: T) throws where T : Encodable {
         let song = SongEncoder()
         let encoded = try song.encode(value)
-        guard let ast = getAST(data: encoded) else
-        {
-            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 100"))
-        }
+//        guard let ast = getAST(data: encoded) else
+//        {
+//            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 100"))
+//        }
         let result = try unwrapStruct(data: encoded, codingPath: [])
         contents.append(result)
     }
@@ -147,25 +147,21 @@ public class SongUnkeyedEncodingContainer: UnkeyedEncodingContainer {
                     
                 }
             
-                let ini = inis[0]
+                let pat: PatternInitializer = inis[0]
             
-                switch ini {
-                    case is PatternInitializer:
-                        let pat = ini
-                        let maybeEx = pat.initializerExpression
-                        guard let ex = maybeEx else {
-                            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Missing initializer expression"))
-                        }
-                        switch ex {
-                            case is FunctionCallExpression:
-                                let f = ex as! FunctionCallExpression
-                                return f
-                            default:
-                                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer expression is not literal expression"))
-                        }
+                let maybeEx = pat.initializerExpression
+                guard let ex = maybeEx else
+                {
+                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Missing initializer expression"))
+                }
+                switch ex
+                {
+                    case is FunctionCallExpression:
+                        let f = ex as! FunctionCallExpression
+                        return f
                     default:
-                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer was not pattern initializer"))
-            }
+                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Initializer expression is not literal expression"))
+                }
             default:
                 throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Top level statement was not constant declaration"))
         }

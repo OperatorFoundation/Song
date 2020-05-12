@@ -39,7 +39,7 @@ public class SongUnkeyedDecodingContainer: UnkeyedDecodingContainer {
                 case LiteralExpression.Kind.array(let exp):
                     expressions = exp
                     count = expressions.count
-                    if count == 1 {
+                    if count == 0 {
                         isAtEnd=true
                     }
                 default:
@@ -462,8 +462,108 @@ public class SongUnkeyedDecodingContainer: UnkeyedDecodingContainer {
     }
     
     public func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
-        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 29"))
+        switch type
+        {
+            case is Data.Type:
+                do
+                {
+                    let result = try decodeData()
+                    return result as! T
+                }
+                catch(let error)
+                {
+                    throw error
+                }
+            default:
+                return try decodeStruct(T.self)
+        }
+    }
+    
+    public func decodeData() throws -> Data {
+        guard let c = count else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "No more elements in list"))
+        }
+        
+        guard currentIndex < c else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "No more elements in list"))
+        }
+        
+        let ex = expressions[currentIndex]
+        currentIndex=currentIndex+1
+        if currentIndex == count
+        {
+            isAtEnd=true
+        }
+        
+        switch ex {
+            case is FunctionCallExpression:
+                let lit = ex as! FunctionCallExpression
+                do
+                {
+                    guard let result = try single.literal(Data.self, lit) else
+                    {
+                        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Element was not Data"))
+                    }
+                    
+                    return result
+                }
+                catch
+                {
+                    throw error
+                }
+            default:
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Element was not Data"))
+        }
+    }
 
+    public func decodeStruct<T>(_ type: T.Type) throws -> T where T : Decodable {
+        guard let c = count else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "No more elements in list"))
+        }
+        
+        guard currentIndex < c else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "No more elements in list"))
+        }
+        
+        let ex = expressions[currentIndex]
+        currentIndex=currentIndex+1
+        if currentIndex == count
+        {
+            isAtEnd=true
+        }
+        
+        switch ex {
+            case is FunctionCallExpression:
+                let lit = ex as! FunctionCallExpression
+                do
+                {
+                    return try literalStruct(T.self, lit)
+                }
+                catch
+                {
+                    throw error
+                }
+            default:
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Element was not Data"))
+        }
+    }
+        
+    func literalStruct<T>(_ type: T.Type, _ lit: FunctionCallExpression) throws -> T where T : Decodable {
+        do {
+            let name = lit.postfixExpression.textDescription
+            print(name)
+                        
+            let song = self.decoder
+            let single = SongEncoder()._singleValueContainer()
+            let litData = single.wrapStruct(value: lit, type: type)
+            let litString = litData.string
+            print(litString)
+            let result = try song.decode(T.self, from: litData)
+            return result            
+        } catch {
+            print(error)
+            throw error
+        }
     }
     
     public func nestedContainer<NestedKey>(keyedBy type: NestedKey.Type) throws -> KeyedDecodingContainer<NestedKey> where NestedKey : CodingKey {

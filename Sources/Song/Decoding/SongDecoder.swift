@@ -22,166 +22,182 @@ public class SongDecoder {
         NSLog("decode<T> data: \(data as NSData)")
         self.data=data
         let container = self._unkeyedContainer()
-        do {
-            if type == [String].self {
-                var results: [String] = []
-                while !container.isAtEnd {
-                    do {
-                        let result: String = try container.decode(String.self)
-                        results.append(result)
-                    } catch {
-                        break
-                    }
+        if type == [Data].self {
+            var results: [Data] = []
+            while !container.isAtEnd {
+                do {
+                    let result: Data = try container.decode(Data.self)
+                    results.append(result)
+                } catch {
+                    break
                 }
-                return results as! [T]
-            } else if type == [Bool].self {
-                var results: [Bool] = []
-                while !container.isAtEnd {
-                    do {
-                        let result: Bool = try container.decode(Bool.self)
-                        results.append(result)
-                    } catch {
-                        break
-                    }
-                }
-                return results as! [T]
-            } else if type == [Double].self {
-                var results: [Double] = []
-                while !container.isAtEnd {
-                    do {
-                        let result: Double = try container.decode(Double.self)
-                        results.append(result)
-                    } catch {
-                        break
-                    }
-                }
-                return results as! [T]
-            } else if type == [Float].self {
-                var results: [Float] = []
-                while !container.isAtEnd {
-                    do {
-                        let result: Float = try container.decode(Float.self)
-                        results.append(result)
-                    } catch {
-                        break
-                    }
-                }
-                return results as! [T]
-            } else if type == [Int].self {
-                var results: [Int] = []
-                while !container.isAtEnd {
-                    do {
-                        let result: Int = try container.decode(Int.self)
-                        results.append(result)
-                    } catch {
-                        break
-                    }
-                }
-                return results as! [T]
-            } else if type == [Int64].self {
-                var results: [Int64] = []
-                while !container.isAtEnd {
-                    do {
-                        let result: Int64 = try container.decode(Int64.self)
-                        results.append(result)
-                    } catch {
-                        break
-                    }
-                }
-                return results as! [T]
-            } else if type == [Int32].self {
-                var results: [Int32] = []
-                while !container.isAtEnd {
-                    do {
-                        let result: Int32 = try container.decode(Int32.self)
-                        results.append(result)
-                    } catch {
-                        break
-                    }
-                }
-                return results as! [T]
-            } else if type == [Int16].self {
-                var results: [Int16] = []
-                while !container.isAtEnd {
-                    do {
-                        let result: Int16 = try container.decode(Int16.self)
-                        results.append(result)
-                    } catch {
-                        break
-                    }
-                }
-                return results as! [T]
-            } else if type == [Int8].self {
-                var results: [Int8] = []
-                while !container.isAtEnd {
-                    do {
-                        let result: Int8 = try container.decode(Int8.self)
-                        results.append(result)
-                    } catch {
-                        break
-                    }
-                }
-                return results as! [T]
-            } else if type == [UInt].self {
-                var results: [UInt] = []
-                while !container.isAtEnd {
-                    do {
-                        let result: UInt = try container.decode(UInt.self)
-                        results.append(result)
-                    } catch {
-                        break
-                    }
-                }
-                return results as! [T]
-            } else if type == [UInt64].self {
-                var results: [UInt64] = []
-                while !container.isAtEnd {
-                    do {
-                        let result: UInt64 = try container.decode(UInt64.self)
-                        results.append(result)
-                    } catch {
-                        break
-                    }
-                }
-                return results as! [T]
-            } else if type == [UInt32].self {
-                var results: [UInt32] = []
-                while !container.isAtEnd {
-                    do {
-                        let result: UInt32 = try container.decode(UInt32.self)
-                        results.append(result)
-                    } catch {
-                        break
-                    }
-                }
-                return results as! [T]
-            } else if type == [UInt16].self {
-                var results: [UInt16] = []
-                while !container.isAtEnd {
-                    do {
-                        let result: UInt16 = try container.decode(UInt16.self)
-                        results.append(result)
-                    } catch {
-                        break
-                    }
-                }
-                return results as! [T]
-            } else if type == [UInt8].self {
-                var results: [UInt8] = []
-                while !container.isAtEnd {
-                    do {
-                        let result: UInt8 = try container.decode(UInt8.self)
-                        results.append(result)
-                    } catch {
-                        break
-                    }
-                }
-                return results as! [T]
-            } else {
-                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 1"))
             }
-        } catch {
-            throw error
+            return results as! [T]
+        } else if type == [String].self {
+            var results: [String] = []
+            while !container.isAtEnd {
+                do {
+                    let result: String = try container.decode(String.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results as! [T]
+        } else if type == [Bool].self {
+            var results: [Bool] = []
+            while !container.isAtEnd {
+                do {
+                    let result: Bool = try container.decode(Bool.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results as! [T]
+        } else if type == [Double].self {
+            var results: [Double] = []
+            while !container.isAtEnd {
+                do {
+                    let result: Double = try container.decode(Double.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results as! [T]
+        } else if type == [Float].self {
+            var results: [Float] = []
+            while !container.isAtEnd {
+                do {
+                    let result: Float = try container.decode(Float.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results as! [T]
+        } else if type == [Int].self {
+            var results: [Int] = []
+            while !container.isAtEnd {
+                do {
+                    let result: Int = try container.decode(Int.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results as! [T]
+        } else if type == [Int64].self {
+            var results: [Int64] = []
+            while !container.isAtEnd {
+                do {
+                    let result: Int64 = try container.decode(Int64.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results as! [T]
+        } else if type == [Int32].self {
+            var results: [Int32] = []
+            while !container.isAtEnd {
+                do {
+                    let result: Int32 = try container.decode(Int32.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results as! [T]
+        } else if type == [Int16].self {
+            var results: [Int16] = []
+            while !container.isAtEnd {
+                do {
+                    let result: Int16 = try container.decode(Int16.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results as! [T]
+        } else if type == [Int8].self {
+            var results: [Int8] = []
+            while !container.isAtEnd {
+                do {
+                    let result: Int8 = try container.decode(Int8.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results as! [T]
+        } else if type == [UInt].self {
+            var results: [UInt] = []
+            while !container.isAtEnd {
+                do {
+                    let result: UInt = try container.decode(UInt.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results as! [T]
+        } else if type == [UInt64].self {
+            var results: [UInt64] = []
+            while !container.isAtEnd {
+                do {
+                    let result: UInt64 = try container.decode(UInt64.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results as! [T]
+        } else if type == [UInt32].self {
+            var results: [UInt32] = []
+            while !container.isAtEnd {
+                do {
+                    let result: UInt32 = try container.decode(UInt32.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results as! [T]
+        } else if type == [UInt16].self {
+            var results: [UInt16] = []
+            while !container.isAtEnd {
+                do {
+                    let result: UInt16 = try container.decode(UInt16.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results as! [T]
+        } else if type == [UInt8].self {
+            var results: [UInt8] = []
+            while !container.isAtEnd {
+                do {
+                    let result: UInt8 = try container.decode(UInt8.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results as! [T]
+        } else {
+            var results: [T] = []
+            while !container.isAtEnd {
+                do {
+                    let result: T = try container.decode(T.self)
+                    results.append(result)
+                } catch {
+                    break
+                }
+            }
+            return results
         }
     }
     
@@ -311,7 +327,6 @@ public class SongDecoder {
     }
     
     public func _singleValueContainer() -> SongSingleValueDecodingContainer {
-        NSLog("data for svc \(data as! NSData)")
         return SongSingleValueDecodingContainer(decoder: self, codingPath: codingPath, data: data!)
     }
     
