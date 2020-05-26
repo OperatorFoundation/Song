@@ -127,7 +127,14 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
             let s = String("\(t)".split(separator: " ")[0])
             song.nextKeyedType=s
             try value.encode(to: self.encoder)
-            self.data = song.nextKeyedContainer!.data
+            
+            guard let nextKeyedContainer = song.nextKeyedContainer
+            else
+            {
+                throw(EncodingError.notEncodable)
+            }
+            
+            self.data = nextKeyedContainer.data
         }
     }
     
