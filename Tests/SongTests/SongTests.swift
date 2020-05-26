@@ -370,7 +370,7 @@ class SongTests: XCTestCase {
         
         XCTAssertNotNil(result)
         XCTAssertEqual(result!, correct)
-    }
+    }    
     
     func testEncodeStruct() {
         // This is an example of a functional test case.
