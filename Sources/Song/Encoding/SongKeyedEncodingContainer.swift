@@ -141,6 +141,23 @@ public class SongKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerPro
         return lit
     }
     
+    public func literalForEncodable<T>(_ value: T) throws -> Expression where T: Encodable {
+        do
+        {
+            let song = SongEncoder()
+            let encoded = try song.encode(value)
+            
+            let decoder = SongDecoder()
+            let decoderContainer = SongSingleValueDecodingContainer(decoder: decoder, codingPath: codingPath, data: encoded)
+            return try decoderContainer.unwrapStruct()
+        }
+        catch let encodeError
+        {
+            print("Error encoding \(value): \(encodeError)")
+            throw(encodeError)
+        }
+    }
+    
     public func encode<T>(_ value: T, forKey key: K) throws where T : Encodable {
         switch value
         {
@@ -152,7 +169,8 @@ public class SongKeyedEncodingContainer<K: CodingKey>: KeyedEncodingContainerPro
                 let lit = literal(data)
                 contents.append((key, lit))
             default:
-                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 200"))
+                let lit = try literalForEncodable(value)
+                contents.append((key, lit))
         }
     }
     
