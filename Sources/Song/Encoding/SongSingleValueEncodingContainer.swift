@@ -130,6 +130,56 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
             self.data = song.nextKeyedContainer!.data
         }
     }
+
+    public func encode<T>(_ value: T) throws where T: Expressible {
+        switch value {
+        case is Date:
+            throw EncodingError.unsupportedType("Date")
+        case is Data:
+            do {
+                try encode(value as! Data)
+            } catch {
+                throw error
+            }
+        case is UUID:
+            do {
+                try encode(value as! UUID)
+            } catch {
+                throw error
+            }
+        case is Decimal:
+            do {
+                try encode(value as! Decimal)
+            } catch {
+                throw error
+            }
+        case is URL:
+            throw EncodingError.unsupportedType("URL")
+        case is Decimal:
+            throw EncodingError.unsupportedType("Decimal")
+        case let daa as Dictionary<AnyHashable, Any>:
+            guard let (firstKey, firstValue) = daa.first else {
+                // FIXME - encode empty dictionary with unspecialized types
+                return
+            }
+            
+//            let keyType = bruteForceType(firstKey) // FIXME - Won't work for non-special case items.
+            let keyType = String(String(describing: type(of: firstKey.base)).split(separator: " ")[0])
+            let valueType = String(String(describing: type(of: firstValue)).split(separator: " ")[0])
+
+            let ex = literal(dictionary: daa)
+            
+            self.data = wrapDictionary(keyType: keyType, valueType: valueType, literal: ex)
+        default:
+            let song = self.encoder as! SongEncoder
+            let t = type(of: value as Any)
+            let s = String("\(t)".split(separator: " ")[0])
+            song.nextKeyedType=s
+            try value.encode(to: self.encoder)
+            self.data = song.nextKeyedContainer!.data
+        }
+    }
+
     
     func encode(_ value: Decimal) throws {
         let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Decimal"))])))

@@ -18,6 +18,9 @@ let package = Package(
             name: "Chorus",
             targets: ["Chorus"]),
         .library(
+            name: "Symphony",
+            targets: ["Symphony"]),
+        .library(
             name: "Package",
             targets: ["Package"]),
         .executable(
@@ -38,13 +41,16 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "Song",
-            dependencies: ["SwiftAST"]),
+            dependencies: ["SwiftAST", "Datable"]),
         .target(
             name: "Composition",
             dependencies: ["Datable"]),
         .target(
             name: "Chorus",
             dependencies: []),
+        .target(
+            name: "Symphony",
+            dependencies: ["Song"]),
         .target(
             name: "Package",
             dependencies: []),
@@ -56,7 +62,10 @@ let package = Package(
             dependencies: ["Chorus", "Datable", "Package", "SwiftAST"]),
         .testTarget(
             name: "SongTests",
-            dependencies: ["Song", "Composition"]),
+            dependencies: ["Song", "Composition", "Datable"]),
+        .testTarget(
+            name: "SymphonyTests",
+            dependencies: ["Song", "Symphony", "Datable"]),
     ],
     swiftLanguageVersions: [.v5]
 )
