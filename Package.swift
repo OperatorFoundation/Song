@@ -23,6 +23,9 @@ let package = Package(
         .library(
             name: "Package",
             targets: ["Package"]),
+        .library(
+            name: "Expressible",
+            targets: ["Expressible"]),
         .executable(
             name: "compose",
             targets: ["compose"]),
@@ -60,6 +63,11 @@ let package = Package(
         .target(
             name: "choir",
             dependencies: ["Chorus", "Datable", "Package", "SwiftAST"]),
+        .target(
+            name: "Expressible",
+            dependencies: ["SwiftAST"]),
+        .testTarget(name: "ExpressibleTests",
+                    dependencies: ["Expressible"]),
         .testTarget(
             name: "SongTests",
             dependencies: ["Song", "Composition", "Datable"]),
