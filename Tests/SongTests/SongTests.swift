@@ -2,6 +2,7 @@ import XCTest
 @testable import Song
 import Foundation
 import Datable
+import Network
 
 class SongTests: XCTestCase {
     func testEncodeString() {
@@ -1355,6 +1356,54 @@ class SongTests: XCTestCase {
             return
         }
         XCTAssertEqual(r, correct)
+    }
+    
+    func testEncodeExpressible() {
+        let song = SongEncoder()._singleValueContainer()
+        
+        let source = NWInterface.InterfaceType.wifi
+        let correct = "let value: InterfaceType = NWInterface.InterfaceType.wifi"
+        
+        do
+        {
+            try song.encode(source)
+        }
+        catch
+        {
+            XCTFail()
+            return
+        }
+        
+        let result = song.data
+        XCTAssertNotNil(result)
+        
+        guard let r = result else {
+            XCTFail()
+            return
+        }
+        
+        let s = r.string
+        
+        XCTAssertEqual(s, correct)
+    }
+    
+    func testDecodeExpressible() {
+        let source = "let value: InterfaceType = NWInterface.InterfaceType.wifi"
+        let correct = NWInterface.InterfaceType.wifi
+        
+        do
+        {
+            let song = SongDecoder()
+            song.data = source.data
+            let single = song._singleValueContainer()
+            let result = try single.decode(NWInterface.InterfaceType.self)
+            XCTAssertEqual(result, correct)
+        }
+        catch
+        {
+            XCTFail()
+            return
+        }
     }
     
 //    func testChoir()
