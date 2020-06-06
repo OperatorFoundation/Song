@@ -8,13 +8,13 @@
 import Foundation
 import Network
 
-extension IPv4Address
-{
-    var expression: Expression {
-    }
-    
-    public init?(expression: Expression)
-    {
-        
-    }
-}
+//extension IPv4Address
+//{
+//    var expression: Expression {
+//    }
+//    
+//    public init?(expression: Expression)
+//    {
+//        
+//    }
+//}
