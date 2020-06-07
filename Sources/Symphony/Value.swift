@@ -16,18 +16,8 @@ struct ValueType: Codable
     let type: String
 }
 
-public class Symphony
+extension Symphony
 {
-    static public let instance: Symphony = Symphony("database")
-    
-    let root: URL
-    
-    init(_ path: String)
-    {
-        let url = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-        self.root = url.appendingPathComponent(path)
-    }
-    
     // MARK: - Simple Atomic Operations
     public func clear() -> Bool
     {
