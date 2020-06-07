@@ -13,13 +13,13 @@ public class Symphony
     
     let root: URL
     
-    init(_ path: String)
+    public init(_ path: String)
     {
         let url = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
         self.root = url.appendingPathComponent(path)
     }
     
-    init(root: URL)
+    public init(root: URL)
     {
         self.root = root
     }
