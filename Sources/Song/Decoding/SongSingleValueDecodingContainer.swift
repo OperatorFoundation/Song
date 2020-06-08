@@ -7,6 +7,7 @@
 
 import Foundation
 import Datable
+import Expressible
 
 import AST
 import Parser
@@ -447,6 +448,31 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
             throw error
         }
     }
+
+    public func decode<T>(_ type: T.Type) throws -> T where T: Expressible {
+        do {
+            guard let d = data else {
+                NSLog("No data")
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 1026"))
+            }
+            
+            guard let ast = getAST(data: d) else {
+                NSLog("No AST")
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 1027"))
+            }
+            
+            let lit = try unwrapExpression()
+            
+            guard let result = T.init(expression: lit) else
+            {
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 1028"))
+            }
+            
+            return result
+        } catch {
+            throw error
+        }
+    }
     
     public func literal<T>(_ type: T.Type, _ lit: FunctionCallExpression) throws -> T where T : Decodable
     {
@@ -512,7 +538,7 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
                 return nil
         }
     }
-    
+        
     public func unwrapStruct() throws -> FunctionCallExpression {
         NSLog("Decoding string!!!")
         guard let d = data else {
@@ -559,6 +585,49 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
                 throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Top level statement was not constant declaration"))
         }
     }
+    
+    public func unwrapExpression() throws -> Expression {
+        NSLog("Decoding string!!!")
+        guard let d = data else {
+            NSLog("No data")
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 26"))
+        }
+        
+        guard let ast = getAST(data: d) else {
+            NSLog("No AST")
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 27"))
+        }
+        
+        print(ast)
+
+        guard ast.statements.count == 1 else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Wrong number of top level statements"))
+        }
+        
+        let stmt = ast.statements[0]
+        
+        switch stmt {
+            case is ConstantDeclaration:
+                let decl = stmt as! ConstantDeclaration
+                let inis = decl.initializerList
+                guard inis.count == 1 else {
+                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Wrong number of initializers"))
+                    
+                }
+            
+                let pat: PatternInitializer = inis[0]
+            
+                let maybeEx = pat.initializerExpression
+                guard let ex = maybeEx else {
+                    throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Missing initializer expression"))
+                }
+            
+                return ex
+            default:
+                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Top level statement was not constant declaration"))
+        }
+    }
+
     
     func makeStruct<T>(_ type: T.Type, _ lit: FunctionCallExpression) throws -> T where T : Decodable {
         do {

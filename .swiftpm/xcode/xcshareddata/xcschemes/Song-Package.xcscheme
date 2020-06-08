@@ -132,6 +132,20 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "Symphony"
+               BuildableName = "Symphony"
+               BlueprintName = "Symphony"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -157,6 +171,16 @@
                BlueprintIdentifier = "ExpressibleTests"
                BuildableName = "ExpressibleTests"
                BlueprintName = "ExpressibleTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "SymphonyTests"
+               BuildableName = "SymphonyTests"
+               BlueprintName = "SymphonyTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
