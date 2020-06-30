@@ -13,10 +13,9 @@ let sequencename = "_sequence"
 extension Symphony
 {
     // MARK: - Simple Atomic Operations
-    public func createSequence<T>(values: [T], at path: URL) -> ValueSequence<T>? where T: Codable
+    public func createEmptySequence<T>(elementType: T.Type, at path: URL) -> ValueSequence<T>? where T: Codable
     {
         guard let dirPath = fixPathAndCreate(path: path) else {return nil}
-        let valuePath = dirPath.appendingPathComponent(valuename)
         let typePath = dirPath.appendingPathComponent(typename)
         let seqPath = dirPath.appendingPathComponent(sequencename)
         let seqRelPath = path.appendingPathComponent(sequencename)
@@ -49,14 +48,52 @@ extension Symphony
                     try FileManager.default.createDirectory(at: seqPath, withIntermediateDirectories: true, attributes: nil)
                 }
                 
-                let result = ValueSequence<T>(path: seqPath, relativePath: seqRelPath)
-                print(result)
+                let result = ValueSequence<T>(rootPath: seqPath, relativePath: seqRelPath)
                 return result
             }
         }
         catch
         {
             return nil
+        }
+    }
+    
+    public func createAndWriteSequence<T>(values: [T], at path: URL) -> ValueSequence<T>? where T: Codable
+    {
+        guard var sequence = createEmptySequence(elementType: T.self, at: path) else {return nil}
+
+        for value in values
+        {
+            sequence.append(value)
+        }
+        
+        return sequence
+    }
+    
+    public func appendSequence<T>(values: [T], at path: URL) -> ValueSequence<T>? where T: Codable
+    {
+        if var createdSequence = createEmptySequence(elementType: T.self, at: path)
+        {
+            for value in values
+            {
+                createdSequence.append(value)
+            }
+            
+            return createdSequence
+        }
+        else
+        {
+            guard var readSequence = readSequence(elementType: T.self, at: path) else
+            {
+                return nil
+            }
+
+            for value in values
+            {
+                readSequence.append(value)
+            }
+            
+            return readSequence
         }
     }
     
@@ -96,7 +133,7 @@ extension Symphony
         }
     }
     
-    public func readSequence<T>(type: T.Type, at path: URL) -> ValueSequence<T>? where T: Codable
+    public func readSequence<T>(elementType: T.Type, at path: URL) -> ValueSequence<T>? where T: Codable
     {
         guard let dirPath = fixPathAndCreate(path: path) else {return nil}
         let typePath = dirPath.appendingPathComponent(typename)
@@ -119,7 +156,7 @@ extension Symphony
                     let song = SongDecoder()
                     let oldType = try song.decode(ValueType.self, from: data)
                     guard oldType.type == newType else {return nil}
-                    return ValueSequence<T>(path: seqPath, relativePath: seqRelPath)
+                    return ValueSequence<T>(rootPath: seqPath, relativePath: seqRelPath)
                 }
                 else
                 {

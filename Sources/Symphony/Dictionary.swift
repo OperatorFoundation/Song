@@ -16,7 +16,6 @@ extension Symphony
     public func createDictionary<K,V>(values: [K:V], at path: URL) -> ValueDictionary<K,V>? where K: Codable, V: Codable
     {
         guard let dirPath = fixPathAndCreate(path: path) else {return nil}
-        let valuePath = dirPath.appendingPathComponent(valuename)
         let typePath = dirPath.appendingPathComponent(typename)
         let seqPath = dirPath.appendingPathComponent(sequencename)
         let seqRelPath = path.appendingPathComponent(sequencename)
@@ -50,7 +49,6 @@ extension Symphony
                 }
                 
                 let result = ValueDictionary<K,V>(path: seqPath, relativePath: seqRelPath)
-                print(result)
                 return result
             }
         }

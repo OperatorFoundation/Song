@@ -9,8 +9,16 @@ import Foundation
 
 public struct ValueSequence<T> where T: Codable
 {
-    let path: URL
+    let rootPath: URL
     let relativePath: URL
+    let symphony: Symphony
+    
+    public init(rootPath: URL, relativePath: URL)
+    {
+        self.rootPath = rootPath
+        self.relativePath = relativePath
+        self.symphony = Symphony(root: rootPath)
+    }
 }
 
 extension ValueSequence
@@ -20,10 +28,10 @@ extension ValueSequence
         do
         {
             // Check if file exists.
-            if FileManager.default.fileExists(atPath: path.path)
+            if FileManager.default.fileExists(atPath: rootPath.path)
             {
                 // File exists.
-                let files = try FileManager.default.contentsOfDirectory(at: path, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+                let files = try FileManager.default.contentsOfDirectory(at: rootPath, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
                 return files.count
             }
             else
@@ -84,7 +92,7 @@ extension ValueSequence: Collection, MutableCollection
         {
             let filename = position.string
             let valuePath = self.relativePath.appendingPathComponent(filename)
-            let result = Symphony.instance.readValue(type: T.self, at: valuePath)
+            let result = self.symphony.readValue(type: T.self, at: valuePath)
             return result!
         }
         
@@ -92,7 +100,7 @@ extension ValueSequence: Collection, MutableCollection
         {
             let filename = position.string
             let valuePath = self.relativePath.appendingPathComponent(filename)
-            let _ = Symphony.instance.writeValue(value: newValue, at: valuePath)
+            let _ = self.symphony.writeValue(value: newValue, at: valuePath)
         }
     }
     
@@ -107,11 +115,10 @@ extension ValueSequence: RangeReplaceableCollection
     public init()
     {
         // FIXME: What is the right thing to do here?
-        self.init(path: URL(fileURLWithPath: ""), relativePath: URL(fileURLWithPath: ""))
+        self.init(rootPath: URL(fileURLWithPath: ""), relativePath: URL(fileURLWithPath: ""))
     }
     
     public mutating func replaceSubrange<C, R>(_ subrange: R, with newElements: C) where C : Collection, R : RangeExpression, Self.Element == C.Element, Self.Index == R.Bound {
-        print("replaceSubrange")
         
         /*
          https://developer.apple.com/documentation/swift/array/3126958-replacesubrange

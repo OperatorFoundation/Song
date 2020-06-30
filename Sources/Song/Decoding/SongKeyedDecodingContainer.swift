@@ -344,8 +344,6 @@ func unwrapStruct(data: Data, codingPath: [CodingKey]) throws -> FunctionCallExp
         throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 27"))
     }
     
-    print(ast)
-
     guard ast.statements.count == 1 else {
         throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Wrong number of top level statements"))
     }

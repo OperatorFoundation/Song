@@ -405,8 +405,6 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 24"))
         }
         
-        print(ast)
-
         guard ast.statements.count == 1 else {
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Wrong number of top level statements"))
         }
@@ -451,15 +449,15 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
 
     public func decode<T>(_ type: T.Type) throws -> T where T: Expressible {
         do {
-            guard let d = data else {
-                NSLog("No data")
-                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 1026"))
-            }
+//            guard let d = data else {
+//                NSLog("No data")
+//                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 1026"))
+//            }
             
-            guard let ast = getAST(data: d) else {
-                NSLog("No AST")
-                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 1027"))
-            }
+//            guard let ast = getAST(data: d) else {
+//                NSLog("No AST")
+//                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 1027"))
+//            }
             
             let lit = try unwrapExpression()
             
@@ -551,8 +549,6 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 27"))
         }
         
-        print(ast)
-
         guard ast.statements.count == 1 else {
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Wrong number of top level statements"))
         }
@@ -598,8 +594,6 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 27"))
         }
         
-        print(ast)
-
         guard ast.statements.count == 1 else {
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "Wrong number of top level statements"))
         }
@@ -631,14 +625,12 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
     
     func makeStruct<T>(_ type: T.Type, _ lit: FunctionCallExpression) throws -> T where T : Decodable {
         do {
-            let name = lit.postfixExpression.textDescription
-            print(name)
+//            let name = lit.postfixExpression.textDescription
                         
             let song = self.decoder as! SongDecoder
-            let single = SongEncoder()._singleValueContainer()
-            let litData = single.wrapStruct(value: lit, type: type)
-            let litString = litData.string
-            print(litString)
+//            let single = SongEncoder()._singleValueContainer()
+//            let litData = single.wrapStruct(value: lit, type: type)
+//            let litString = litData.string
 //            let result = try song.decode(T.self, from: litData)
             let result = try T.init(from: song)
             return result

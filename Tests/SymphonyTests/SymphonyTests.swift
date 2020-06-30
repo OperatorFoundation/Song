@@ -13,15 +13,15 @@ import Datable
 
 class SymphonyTests: XCTestCase {
     func testClear() {
-        let symphony = Symphony.instance
-        
+        let symphony = Symphony("database")
+
         let result = symphony.clear()
         XCTAssertTrue(result)
     }
     
     func testCreateString() {
-        let symphony = Symphony.instance
-        
+        let symphony = Symphony("database")
+
         let value = "test"
         
         let path = URL(fileURLWithPath: "test")
@@ -37,8 +37,8 @@ class SymphonyTests: XCTestCase {
     }
     
     func testReadString() {
-        let symphony = Symphony.instance
-        
+        let symphony = Symphony("database")
+
         let value = "test"
         
         let path = URL(fileURLWithPath: "test")
@@ -58,8 +58,8 @@ class SymphonyTests: XCTestCase {
     }
     
     func testWriteString() {
-        let symphony = Symphony.instance
-        
+        let symphony = Symphony("database")
+
         let value1 = "test1"
         let value2 = "test2"
         
@@ -87,8 +87,8 @@ class SymphonyTests: XCTestCase {
     }
     
     func testDeleteString() {
-        let symphony = Symphony.instance
-        
+        let symphony = Symphony("database")
+
         let value = "test"
         
         let path = URL(fileURLWithPath: "test")
@@ -115,8 +115,8 @@ class SymphonyTests: XCTestCase {
     }
     
     func testCreateStringSequence() {
-        let symphony = Symphony.instance
-        
+        let symphony = Symphony("database")
+
         let value = "test"
         let values = [value]
         
@@ -125,16 +125,16 @@ class SymphonyTests: XCTestCase {
         let clearResult = symphony.clear()
         XCTAssertTrue(clearResult)
         
-        let sequence1 = symphony.createSequence(values: values, at: path)
+        let sequence1 = symphony.createAndWriteSequence(values: values, at: path)
         XCTAssertNotNil(sequence1)
         
-        let sequence2 = symphony.createSequence(values: values, at: path)
+        let sequence2 = symphony.createAndWriteSequence(values: values, at: path)
         XCTAssertNil(sequence2)
     }
     
     func testDeleteStringSequence() {
-        let symphony = Symphony.instance
-        
+        let symphony = Symphony("database")
+
         let value = "test"
         let values = [value]
         
@@ -143,21 +143,21 @@ class SymphonyTests: XCTestCase {
         let clearResult = symphony.clear()
         XCTAssertTrue(clearResult)
         
-        let sequence1 = symphony.createSequence(values: values, at: path)
+        let sequence1 = symphony.createAndWriteSequence(values: values, at: path)
         XCTAssertNotNil(sequence1)
         
-        let sequence2 = symphony.createSequence(values: values, at: path)
+        let sequence2 = symphony.createAndWriteSequence(values: values, at: path)
         XCTAssertNil(sequence2)
         
         let deleteResult = symphony.deleteSequence(at: path)
         XCTAssertTrue(deleteResult)
         
-        let sequence3 = symphony.createSequence(values: values, at: path)
+        let sequence3 = symphony.createAndWriteSequence(values: values, at: path)
         XCTAssertNotNil(sequence3)
     }
     
     func testReadStringSequenceEmpty() {
-        let symphony = Symphony.instance
+        let symphony = Symphony("database")
         
         let value = "test"
         let values = [value]
@@ -167,31 +167,25 @@ class SymphonyTests: XCTestCase {
         let clearResult = symphony.clear()
         XCTAssertTrue(clearResult)
         
-        guard let sequence1 = symphony.createSequence(values: values, at: path) else
-        {
-            XCTFail()
-            return
-        }
+        let sequence1 = symphony.createAndWriteSequence(values: values, at: path)
+        XCTAssertNotNil(sequence1)
         
-        let sequence2 = symphony.createSequence(values: values, at: path)
+        let sequence2 = symphony.createAndWriteSequence(values: values, at: path)
         XCTAssertNil(sequence2)
         
-        guard let sequence3 = symphony.readSequence(type: String.self, at: path) else
-        {
-            XCTFail()
-            return
-        }
+        let sequence3 = symphony.readSequence(elementType: String.self, at: path)
+        XCTAssertNotNil(sequence3)
         
         let deleteResult = symphony.deleteSequence(at: path)
         XCTAssertTrue(deleteResult)
         
-        let sequence4 = symphony.readSequence(type: [String].self, at: path)
+        let sequence4 = symphony.readSequence(elementType: [String].self, at: path)
         XCTAssertNil(sequence4)
     }
     
     func testReadStringSequenceNonempty() {
-        let symphony = Symphony.instance
-        
+        let symphony = Symphony("database")
+
         let value = "test"
         let values = [value]
         
@@ -200,16 +194,13 @@ class SymphonyTests: XCTestCase {
         let clearResult = symphony.clear()
         XCTAssertTrue(clearResult)
         
-        guard let sequence1 = symphony.createSequence(values: values, at: path) else
-        {
-            XCTFail()
-            return
-        }
+        let sequence1 = symphony.createAndWriteSequence(values: values, at: path)
+        XCTAssertNotNil(sequence1)
         
-        let sequence2 = symphony.createSequence(values: values, at: path)
+        let sequence2 = symphony.createAndWriteSequence(values: values, at: path)
         XCTAssertNil(sequence2)
         
-        guard var sequence3 = symphony.readSequence(type: String.self, at: path) else
+        guard var sequence3 = symphony.readSequence(elementType: String.self, at: path) else
         {
             XCTFail()
             return
@@ -222,7 +213,7 @@ class SymphonyTests: XCTestCase {
         let deleteResult = symphony.deleteSequence(at: path)
         XCTAssertTrue(deleteResult)
         
-        let sequence4 = symphony.readSequence(type: [String].self, at: path)
+        let sequence4 = symphony.readSequence(elementType: [String].self, at: path)
         XCTAssertNil(sequence4)
     }
 }

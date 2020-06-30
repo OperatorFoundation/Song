@@ -53,7 +53,6 @@ extension Symphony
 
         do
         {
-            print(realPath.path)
             // Check if file already exists
             if FileManager.default.fileExists(atPath: realPath.path)
             {
@@ -253,19 +252,12 @@ extension Symphony
     func fixPathIfExists(path: URL) -> URL?
     {
         let dirPath = fixPath(path: path)
-        do
+        // Check if directory already exists
+        if FileManager.default.fileExists(atPath: dirPath.path)
         {
-            // Check if directory already exists
-            if FileManager.default.fileExists(atPath: dirPath.path)
-            {
-                return dirPath
-            }
-            else
-            {
-                return nil
-            }
+            return dirPath
         }
-        catch
+        else
         {
             return nil
         }

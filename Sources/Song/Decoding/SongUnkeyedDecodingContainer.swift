@@ -550,14 +550,12 @@ public class SongUnkeyedDecodingContainer: UnkeyedDecodingContainer {
         
     func literalStruct<T>(_ type: T.Type, _ lit: FunctionCallExpression) throws -> T where T : Decodable {
         do {
-            let name = lit.postfixExpression.textDescription
-            print(name)
+//            let name = lit.postfixExpression.textDescription
                         
             let song = self.decoder
             let single = SongEncoder()._singleValueContainer()
             let litData = single.wrapStruct(value: lit, type: type)
-            let litString = litData.string
-            print(litString)
+//            let litString = litData.string
             let result = try song.decode(T.self, from: litData)
             return result            
         } catch {

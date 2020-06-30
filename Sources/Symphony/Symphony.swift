@@ -9,8 +9,6 @@ import Foundation
 
 public class Symphony
 {
-    static public let instance: Symphony = Symphony("database")
-    
     let root: URL
     
     public init(_ path: String)

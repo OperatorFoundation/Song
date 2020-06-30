@@ -214,8 +214,8 @@ class SongTests: XCTestCase {
         NSLog("\(result! as NSData)")
         NSLog("\(correct as NSData)")
         
-        NSLog("\(String(bytes: result!, encoding: .utf8))")
-        NSLog("\(String(bytes: correct, encoding: .utf8))")
+        NSLog("\(String(describing: String(bytes: result!, encoding: .utf8)))")
+        NSLog("\(String(describing: String(bytes: correct, encoding: .utf8)))")
 
         XCTAssertNotNil(result)
         XCTAssertEqual(result!, correct)
@@ -1405,7 +1405,7 @@ class SongTests: XCTestCase {
             return
         }
     }
-    
+        
 //    func testChoir()
 //    {
 //        let song = SongDecoder()
