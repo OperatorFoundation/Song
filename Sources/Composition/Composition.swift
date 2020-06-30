@@ -30,7 +30,7 @@ public func remoteCall(code: String, callback: @escaping (Data) -> Void )
             guard maybeError == nil else { return }
             guard let data = maybeData else { return }
             
-            let length = Int(data.uint16)
+            let length = Int(data.uint16!)
             
             conn.receive(minimumIncompleteLength: length, maximumLength: length)
             {
