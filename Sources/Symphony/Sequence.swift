@@ -173,4 +173,21 @@ extension Symphony
             return nil
         }
     }
+    
+    public func createOrReadSequence<T>(elementType: T.Type, at path: URL) -> ValueSequence<T>? where T: Codable
+    {
+        if let createdSequence = createEmptySequence(elementType: T.self, at: path)
+        {
+            return createdSequence
+        }
+        else
+        {
+            guard let readSequence = readSequence(elementType: T.self, at: path) else
+            {
+                return nil
+            }
+
+            return readSequence
+        }
+    }
 }
