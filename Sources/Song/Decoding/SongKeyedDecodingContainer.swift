@@ -340,7 +340,6 @@ func unwrapStruct(data: Data, codingPath: [CodingKey]) throws -> FunctionCallExp
     NSLog("Decoding string!!!")
     
     guard let ast = getAST(data: data) else {
-        NSLog("No AST")
         throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 27"))
     }
     

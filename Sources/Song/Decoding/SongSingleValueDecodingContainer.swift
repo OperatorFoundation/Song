@@ -394,14 +394,11 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
     }
     
     public func unwrap() throws -> LiteralExpression {
-        NSLog("Decoding string!!!")
         guard let d = data else {
-            NSLog("No data")
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 23"))
         }
         
         guard let ast = getAST(data: d) else {
-            NSLog("No AST")
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 24"))
         }
         
@@ -449,16 +446,6 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
 
     public func decode<T>(_ type: T.Type) throws -> T where T: Expressible {
         do {
-//            guard let d = data else {
-//                NSLog("No data")
-//                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 1026"))
-//            }
-            
-//            guard let ast = getAST(data: d) else {
-//                NSLog("No AST")
-//                throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 1027"))
-//            }
-            
             let lit = try unwrapExpression()
             
             guard let result = T.init(expression: lit) else
@@ -538,14 +525,11 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
     }
         
     public func unwrapStruct() throws -> FunctionCallExpression {
-        NSLog("Decoding string!!!")
         guard let d = data else {
-            NSLog("No data")
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 26"))
         }
         
         guard let ast = getAST(data: d) else {
-            NSLog("No AST")
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 27"))
         }
         
@@ -583,14 +567,11 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
     }
     
     public func unwrapExpression() throws -> Expression {
-        NSLog("Decoding string!!!")
         guard let d = data else {
-            NSLog("No data")
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 26"))
         }
         
         guard let ast = getAST(data: d) else {
-            NSLog("No AST")
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 27"))
         }
         

@@ -22,16 +22,16 @@ extension NWInterface.InterfaceType: Expressible
         
         switch self
         {
-        case .cellular:
-            identifierString = cellularString
-        case .loopback:
-            identifierString = loopbackString
-        case .other:
-            identifierString = otherString
-        case .wifi:
-            identifierString = wifiString
-        case .wiredEthernet:
-            identifierString = wiredEthernetString
+            case .cellular:
+                identifierString = cellularString
+            case .loopback:
+                identifierString = loopbackString
+            case .other:
+                identifierString = otherString
+            case .wifi:
+                identifierString = wifiString
+            case .wiredEthernet:
+                identifierString = wiredEthernetString
         }
         
         let identifier = Identifier.name(identifierString)
