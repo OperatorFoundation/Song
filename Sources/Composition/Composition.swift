@@ -24,9 +24,7 @@ public func remoteCall(code: String, callback: @escaping (Data) -> Void )
         conn.receive(minimumIncompleteLength: 2, maximumLength: 2)
         {
             (maybeData, maybeContext, isComplete, maybeError) in
-            
-            print("received \(maybeData)")
-            
+                        
             guard maybeError == nil else { return }
             guard let data = maybeData else { return }
             
@@ -35,9 +33,7 @@ public func remoteCall(code: String, callback: @escaping (Data) -> Void )
             conn.receive(minimumIncompleteLength: length, maximumLength: length)
             {
                 (maybeData, maybeContext, isComplete, maybeError) in
-                
-                print("received.. \(maybeData)")
-                
+                                
                 guard maybeError == nil else { return }
                 guard let data = maybeData else { return }
                 

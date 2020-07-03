@@ -13,11 +13,11 @@ public struct ValueSequence<T> where T: Codable
     let relativePath: URL
     let symphony: Symphony
     
-    public init(rootPath: URL, relativePath: URL)
+    public init(symphony: Symphony, rootPath: URL, relativePath: URL)
     {
         self.rootPath = rootPath
         self.relativePath = relativePath
-        self.symphony = Symphony(root: rootPath)
+        self.symphony = symphony
     }
 }
 
@@ -115,7 +115,7 @@ extension ValueSequence: RangeReplaceableCollection
     public init()
     {
         // FIXME: What is the right thing to do here?
-        self.init(rootPath: URL(fileURLWithPath: ""), relativePath: URL(fileURLWithPath: ""))
+        self.init(symphony: Symphony("database"), rootPath: URL(fileURLWithPath: ""), relativePath: URL(fileURLWithPath: ""))
     }
     
     public mutating func replaceSubrange<C, R>(_ subrange: R, with newElements: C) where C : Collection, R : RangeExpression, Self.Element == C.Element, Self.Index == R.Bound {

@@ -211,12 +211,6 @@ class SongTests: XCTestCase {
         let result = try? song.encode(data)
         let correct = "let value: Data = Data(base64Encoded: \"c3RyaW5n\")".data(using: .utf8)!
         
-        NSLog("\(result! as NSData)")
-        NSLog("\(correct as NSData)")
-        
-        NSLog("\(String(describing: String(bytes: result!, encoding: .utf8)))")
-        NSLog("\(String(describing: String(bytes: correct, encoding: .utf8)))")
-
         XCTAssertNotNil(result)
         XCTAssertEqual(result!, correct)
     }

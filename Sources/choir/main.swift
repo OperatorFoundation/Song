@@ -21,9 +21,7 @@ func main()
         conn.receive(minimumIncompleteLength: 2, maximumLength: 2)
         {
             (maybeData, maybeContext, isComplete, maybeError) in
-            
-            print("received \(maybeData)")
-            
+                        
             guard maybeError == nil else { return }
             guard let data = maybeData else { return }
             
@@ -32,9 +30,7 @@ func main()
             conn.receive(minimumIncompleteLength: length, maximumLength: length)
             {
                 (maybeData, maybeContext, isComplete, maybeError) in
-                
-                print("received.. \(maybeData)")
-                
+                                
                 guard maybeError == nil else { return }
                 guard let data = maybeData else { return }
                 
@@ -48,8 +44,6 @@ func main()
                 
                 package.build()
                 let result = package.run()
-                print("Success!")
-                print(result)
                 
                 let resultLength = result.count
                 let resultLength16 = UInt16(resultLength)

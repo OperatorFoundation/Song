@@ -48,7 +48,7 @@ extension Symphony
                     try FileManager.default.createDirectory(at: seqPath, withIntermediateDirectories: true, attributes: nil)
                 }
                 
-                let result = ValueSequence<T>(rootPath: seqPath, relativePath: seqRelPath)
+                let result = ValueSequence<T>(symphony: self, rootPath: seqPath, relativePath: seqRelPath)
                 return result
             }
         }
@@ -156,7 +156,7 @@ extension Symphony
                     let song = SongDecoder()
                     let oldType = try song.decode(ValueType.self, from: data)
                     guard oldType.type == newType else {return nil}
-                    return ValueSequence<T>(rootPath: seqPath, relativePath: seqRelPath)
+                    return ValueSequence<T>(symphony: self, rootPath: seqPath, relativePath: seqRelPath)
                 }
                 else
                 {
