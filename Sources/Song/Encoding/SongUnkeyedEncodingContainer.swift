@@ -122,11 +122,9 @@ public class SongUnkeyedEncodingContainer: UnkeyedEncodingContainer {
         return topLevelDecl
     }
     
-    func unwrapStruct(data: Data, codingPath: [CodingKey]) throws -> FunctionCallExpression {
-        NSLog("Decoding string!!!")
-        
+    func unwrapStruct(data: Data, codingPath: [CodingKey]) throws -> FunctionCallExpression
+    {
         guard let ast = getAST(data: data) else {
-            NSLog("No AST")
             throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 27"))
         }
         

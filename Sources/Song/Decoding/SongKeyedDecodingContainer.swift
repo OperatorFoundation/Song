@@ -337,8 +337,6 @@ public class SongKeyedDecodingContainer<K: CodingKey>: KeyedDecodingContainerPro
 }
 
 func unwrapStruct(data: Data, codingPath: [CodingKey]) throws -> FunctionCallExpression {
-    NSLog("Decoding string!!!")
-    
     guard let ast = getAST(data: data) else {
         throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 27"))
     }
