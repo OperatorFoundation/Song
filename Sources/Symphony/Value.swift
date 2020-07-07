@@ -45,6 +45,34 @@ extension Symphony
         }
     }
     
+    public func subkeys(at path: URL) -> [String]?
+    {
+        guard let dirPath = fixPathIfExists(path: path) else {return nil}
+        guard FileManager.default.fileExists(atPath: dirPath.path) else {return nil}
+        
+        var results: [String] = []
+
+        do
+        {
+            let files = try FileManager.default.contentsOfDirectory(atPath: dirPath.path)
+            
+            for file in files
+            {
+                if file.starts(with: "_") {continue}
+                
+                results.append(file)
+            }
+            
+            return results
+        }
+        catch let error
+        {
+            print(error)
+            print(dirPath.absoluteString)
+            return nil
+        }
+    }
+    
     public func createValue<T>(value: T, at path: URL) -> Bool where T: Codable
     {
         guard let dirPath = fixPathAndCreate(path: path) else {return false}
@@ -246,7 +274,15 @@ extension Symphony
     // MARK: - Utility Functions
     func fixPath(path: URL) -> URL
     {
-        return self.root.appendingPathComponent(path.relativePath)
+        if path.relativePath == "."
+        {
+            return self.root
+        }
+        else
+        {
+            print(path.relativePath)
+            return self.root.appendingPathComponent(path.relativePath)
+        }
     }
     
     func fixPathIfExists(path: URL) -> URL?

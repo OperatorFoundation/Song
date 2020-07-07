@@ -183,7 +183,8 @@ class SymphonyTests: XCTestCase {
         XCTAssertNil(sequence4)
     }
     
-    func testReadStringSequenceNonempty() {
+    func testReadStringSequenceNonempty()
+    {
         let symphony = Symphony("database")
 
         let value = "test"
@@ -215,6 +216,33 @@ class SymphonyTests: XCTestCase {
         
         let sequence4 = symphony.readSequence(elementType: [String].self, at: path)
         XCTAssertNil(sequence4)
+    }
+    
+    func testSubkeys()
+    {
+        let correct = ["test1", "test2"]
+        
+        let symphony = Symphony("database")
+
+        let value = "test"
+        
+        let value1Path = URL(fileURLWithPath: "test1")
+        let value2Path = URL(fileURLWithPath: "test2")
+        let subkeysPath = URL(fileURLWithPath: "")
+        
+        let clearResult = symphony.clear()
+        XCTAssertTrue(clearResult)
+
+        let result1 = symphony.createValue(value: value, at: value1Path)
+        XCTAssertTrue(result1)
+        
+        let result2 = symphony.createValue(value: value, at: value2Path)
+        XCTAssertTrue(result2)
+
+        let subkeys = symphony.subkeys(at: subkeysPath)
+        XCTAssertNotNil(subkeys)
+        
+        XCTAssertEqual(subkeys!, correct)
     }
 }
 
