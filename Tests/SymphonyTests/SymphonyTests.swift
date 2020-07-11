@@ -244,6 +244,35 @@ class SymphonyTests: XCTestCase {
         
         XCTAssertEqual(subkeys!, correct)
     }
+    
+    func testSubkeysSequence()
+    {
+        let symphony = Symphony("database")
+
+        let value = "test"
+        
+        let value1Path = URL(fileURLWithPath: "test1")
+        let value2Path = URL(fileURLWithPath: "test2")
+        let subkeysPath = URL(fileURLWithPath: "")
+        
+        let clearResult = symphony.clear()
+        XCTAssertTrue(clearResult)
+
+        let result1 = symphony.createValue(value: value, at: value1Path)
+        XCTAssertTrue(result1)
+        
+        let result2 = symphony.createValue(value: value, at: value2Path)
+        XCTAssertTrue(result2)
+
+        let subkeys = symphony.subkeys(at: subkeysPath)
+        XCTAssertNotNil(subkeys)
+        
+        let subkeysSequence = symphony.readSubkeysSequence(elementType: String.self, at: URL(fileURLWithPath: ""))
+        XCTAssertNotNil(subkeysSequence)
+        
+        XCTAssertEqual(subkeysSequence![0], value)
+        XCTAssertEqual(subkeysSequence![1], value)
+    }
 }
 
 func compare<T>(a: [T], b: ValueSequence<T>) -> Bool where T: Equatable
