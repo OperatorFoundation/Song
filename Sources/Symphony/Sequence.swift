@@ -188,6 +188,21 @@ extension Symphony
             return nil
         }
     }
+
+    public func readOnlySubkeysSequence<T>(elementType: T.Type, at path: URL) -> ReadOnlySubkeySequence<T>? where T: Codable
+    {
+        guard let dirPath = fixPathAndCreate(path: path) else {return nil}
+        
+        // Check if file exists
+        if FileManager.default.fileExists(atPath: dirPath.path)
+        {
+            return ReadOnlySubkeySequence<T>(symphony: self, rootPath: dirPath)
+        }
+        else
+        {
+            return nil
+        }
+    }
     
     public func createOrReadSequence<T>(elementType: T.Type, at path: URL) -> ValueSequence<T>? where T: Codable
     {
