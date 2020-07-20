@@ -50,5 +50,11 @@ public struct ReadOnlySymphony
     public func readOnlySubkeysSequence<T>(elementType: T.Type, at url: URL) -> ReadOnlySubkeySequence<T>? where T: Codable
     {
         return self.symphony.readOnlySubkeysSequence(elementType: T.self, at: url)
+        
+    }
+    
+    public func readValue<T>(type: T.Type, at url: URL) -> T? where T: Codable
+    {
+        return self.symphony.readValue(type: type, at: url)
     }
 }
