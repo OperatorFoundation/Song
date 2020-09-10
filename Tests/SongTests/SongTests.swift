@@ -2,7 +2,6 @@ import XCTest
 @testable import Song
 import Foundation
 import Datable
-import Network
 
 class SongTests: XCTestCase {
     func testEncodeString() {
