@@ -14,6 +14,7 @@ let loopbackString = "loopback"
 let otherString = "other"
 let wifiString = "wifi"
 let wiredEthernetString = "wiredEthernet"
+let unknown = "unknown"
 
 extension NWInterface.InterfaceType: Expressible
 {
@@ -32,6 +33,8 @@ extension NWInterface.InterfaceType: Expressible
                 identifierString = wifiString
             case .wiredEthernet:
                 identifierString = wiredEthernetString
+            default:
+                identifierString = unknown
         }
         
         let identifier = Identifier.name(identifierString)
