@@ -2,9 +2,13 @@ import Foundation
 import AST
 import Parser
 import Source
-import Network
 import Datable
 import Package
+#if os(Linux)
+import NetworkLinux
+#else
+import Network
+#endif
 
 func main()
 {

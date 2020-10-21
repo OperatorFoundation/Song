@@ -41,6 +41,7 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/yanagiba/swift-ast", from: "0.4.2"),
         .package(url: "https://github.com/OperatorFoundation/Datable", from: "3.0.2"),
+        .package(url: "https://github.com/OperatorFoundation/NetworkLinux", from: "0.1.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -50,7 +51,7 @@ let package = Package(
             dependencies: [.product(name: "SwiftAST", package: "swift-ast"), "Datable", "Expressible"]),
         .target(
             name: "Composition",
-            dependencies: ["Datable"]),
+            dependencies: ["Datable", "NetworkLinux"]),
         .target(
             name: "Chorus",
             dependencies: []),
@@ -65,7 +66,7 @@ let package = Package(
             dependencies: ["Composition", .product(name: "SwiftAST", package: "swift-ast")]),
         .target(
             name: "choir",
-            dependencies: ["Chorus", "Datable", "Package", .product(name: "SwiftAST", package: "swift-ast")]),
+            dependencies: ["Chorus", "Datable", "Package", "NetworkLinux", .product(name: "SwiftAST", package: "swift-ast")]),
         .target(
             name: "Expressible",
             dependencies: [.product(name: "SwiftAST", package: "swift-ast")]),

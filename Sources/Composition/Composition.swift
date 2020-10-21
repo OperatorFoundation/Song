@@ -1,6 +1,10 @@
 import Foundation
-import Network
 import Datable
+#if os(Linux)
+import NetworkLinux
+#else
+import Network
+#endif
 
 public func remoteCall(code: String, callback: @escaping (Data) -> Void )
 {
