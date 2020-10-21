@@ -10,7 +10,7 @@ public func remoteCall(code: String, callback: @escaping (Data) -> Void )
 {
     let queue = DispatchQueue(label: "network")
     
-    let conn = NWConnection(host: NWEndpoint.Host("127.0.0.1"), port: NWEndpoint.Port(integerLiteral: 1234), using: .tcp)
+    let conn = NWConnection(host: NWEndpoint.Host.ipv4(IPv4Address("127.0.0.1")!), port: NWEndpoint.Port(integerLiteral: 1234), using: .tcp)
     conn.start(queue: queue)
 
     let payload = code.data
@@ -19,7 +19,7 @@ public func remoteCall(code: String, callback: @escaping (Data) -> Void )
     let lengthBytes = length16.data
     let data = lengthBytes + payload
     
-    conn.send(content: data, completion: NWConnection.SendCompletion.contentProcessed(
+    conn.send(content: data, contentContext: NWConnection.ContentContext.defaultMessage, isComplete: false, completion: NWConnection.SendCompletion.contentProcessed(
     {
         maybeError in
         
