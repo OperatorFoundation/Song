@@ -6,8 +6,13 @@
 //
 
 import Foundation
-import Network
 import AST
+
+#if os(Linux)
+import NetworkLinux
+#else
+import Network
+#endif
 
 extension NWEndpoint.Port: Expressible
 {

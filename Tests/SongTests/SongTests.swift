@@ -215,8 +215,8 @@ class SongTests: XCTestCase {
         NSLog("\(result! as NSData)")
         NSLog("\(correct as NSData)")
         
-        NSLog("\(String(bytes: result!, encoding: .utf8))")
-        NSLog("\(String(bytes: correct, encoding: .utf8))")
+        NSLog("\(String(bytes: result!, encoding: .utf8) ?? "Could not decode bytes")")
+        NSLog("\(String(bytes: correct, encoding: .utf8) ?? "Could not decode bytes")")
 
         XCTAssertNotNil(result)
         XCTAssertEqual(result!, correct)

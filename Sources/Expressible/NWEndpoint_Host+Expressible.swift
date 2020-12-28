@@ -6,23 +6,19 @@
 //
 
 import Foundation
-import Network
 import AST
+
+#if os(Linux)
+import NetworkLinux
+#else
+import Network
+#endif
 
 extension NWEndpoint.Host: Expressible
 {
     public var expression: Expression
     {
         let identifierString = "placeholder"
-//
-//        switch self
-//        {
-//            case .ipv4(let ipv4Address):
-//                <#code#>
-//            default:
-//                <#code#>
-//        }
-        
         let identifier = Identifier.name(identifierString)
         let postfix = ExplicitMemberExpression(kind: .namedType(IdentifierExpression(kind: .identifier(Identifier.name("NWEndpoint"), nil)) , Identifier.name("Host")))
         let explicitExpression = ExplicitMemberExpression(kind: .namedType(postfix, identifier))

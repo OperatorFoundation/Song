@@ -303,7 +303,7 @@ public class SongDecoder {
     }
     
     public func _singleValueContainer() -> SongSingleValueDecodingContainer {
-        NSLog("data for svc \(data as! NSData)")
+        NSLog("data for svc \(data! as NSData)")
         return SongSingleValueDecodingContainer(decoder: self, codingPath: codingPath, data: data!)
     }
     

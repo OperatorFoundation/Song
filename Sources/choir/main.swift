@@ -2,9 +2,14 @@ import Foundation
 import AST
 import Parser
 import Source
-import Network
 import Datable
 import Package
+
+#if os(Linux)
+import NetworkLinux
+#else
+import Network
+#endif
 
 func main()
 {
@@ -22,7 +27,10 @@ func main()
         {
             (maybeData, maybeContext, isComplete, maybeError) in
             
-            print("received \(maybeData)")
+            if let data = maybeData
+            {
+                print("composition received \(data)")
+            }
             
             guard maybeError == nil else { return }
             guard let data = maybeData else { return }
@@ -33,7 +41,10 @@ func main()
             {
                 (maybeData, maybeContext, isComplete, maybeError) in
                 
-                print("received.. \(maybeData)")
+                if let data = maybeData
+                {
+                    print("received.. \(data)")
+                }
                 
                 guard maybeError == nil else { return }
                 guard let data = maybeData else { return }

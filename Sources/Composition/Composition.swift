@@ -1,6 +1,11 @@
 import Foundation
-import Network
 import Datable
+
+#if os(Linux)
+import NetworkLinux
+#else
+import Network
+#endif
 
 public func remoteCall(code: String, callback: @escaping (Data) -> Void )
 {
@@ -25,8 +30,11 @@ public func remoteCall(code: String, callback: @escaping (Data) -> Void )
         {
             (maybeData, maybeContext, isComplete, maybeError) in
             
-            print("received \(maybeData)")
-            
+            if let data = maybeData
+            {
+                print("composition received \(data)")
+            }
+           
             guard maybeError == nil else { return }
             guard let data = maybeData else { return }
             
@@ -36,7 +44,10 @@ public func remoteCall(code: String, callback: @escaping (Data) -> Void )
             {
                 (maybeData, maybeContext, isComplete, maybeError) in
                 
-                print("received.. \(maybeData)")
+                if let data = maybeData
+                {
+                    print("received.. \(data)")
+                }
                 
                 guard maybeError == nil else { return }
                 guard let data = maybeData else { return }

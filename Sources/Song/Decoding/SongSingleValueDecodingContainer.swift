@@ -453,8 +453,8 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
             throw error
         }
         
-        NSLog("GENERAL DECODE")
-        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 25"))
+        //NSLog("GENERAL DECODE")
+        //throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 25"))
     }
     
     public func unwrapStruct() throws -> FunctionCallExpression {
@@ -530,6 +530,6 @@ public class SongSingleValueDecodingContainer: SingleValueDecodingContainer {
             throw error
         }
         
-        throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 28"))
+        //throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: codingPath, debugDescription: "unsupported type 28"))
     }
 }
