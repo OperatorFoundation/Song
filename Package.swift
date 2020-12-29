@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -51,7 +51,8 @@ let package = Package(
             dependencies: [.product(name: "SwiftAST", package: "swift-ast"), "Datable", "Expressible"]),
         .target(
             name: "Composition",
-            dependencies: ["Datable", "NetworkLinux"]),
+            dependencies: ["Datable",
+                           .product(name: "NetworkLinux", package: "NetworkLinux", condition: .when(platforms: [.linux]))]),
         .target(
             name: "Chorus",
             dependencies: []),
@@ -63,13 +64,17 @@ let package = Package(
             dependencies: []),
         .target(
             name: "compose",
-            dependencies: ["Composition", .product(name: "SwiftAST", package: "swift-ast")]),
+            dependencies: ["Composition",
+                           .product(name: "SwiftAST", package: "swift-ast")]),
         .target(
             name: "choir",
-            dependencies: ["Chorus", "Datable", "Package", "NetworkLinux", .product(name: "SwiftAST", package: "swift-ast")]),
+            dependencies: ["Chorus", "Datable", "Package",
+                           .product(name: "SwiftAST", package: "swift-ast"),
+                           .product(name: "NetworkLinux", package: "NetworkLinux", condition: .when(platforms: [.linux]))]),
         .target(
             name: "Expressible",
-            dependencies: [.product(name: "SwiftAST", package: "swift-ast")]),
+            dependencies: [.product(name: "SwiftAST", package: "swift-ast"),
+                           .product(name: "NetworkLinux", package: "NetworkLinux", condition: .when(platforms: [.linux]))]),
         .target(
             name: "SongExpressible",
             dependencies: ["Song", "Expressible"]),
