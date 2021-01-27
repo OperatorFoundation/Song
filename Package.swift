@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -41,7 +41,7 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/yanagiba/swift-ast", from: "0.4.2"),
         .package(url: "https://github.com/OperatorFoundation/Datable", from: "3.0.2"),
-        .package(url: "https://github.com/OperatorFoundation/NetworkLinux", from: "0.1.0"),
+        .package(url: "https://github.com/OperatorFoundation/NetworkLinux", from: "0.2.4"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -51,7 +51,8 @@ let package = Package(
             dependencies: [.product(name: "SwiftAST", package: "swift-ast"), "Datable", "Expressible"]),
         .target(
             name: "Composition",
-            dependencies: ["Datable", "NetworkLinux"]),
+            dependencies: ["Datable",
+                           .product(name: "NetworkLinux", package: "NetworkLinux", condition: .when(platforms: [.linux]))]),
         .target(
             name: "Chorus",
             dependencies: []),
@@ -63,13 +64,17 @@ let package = Package(
             dependencies: []),
         .target(
             name: "compose",
-            dependencies: ["Composition", .product(name: "SwiftAST", package: "swift-ast")]),
+            dependencies: ["Composition",
+                           .product(name: "SwiftAST", package: "swift-ast")]),
         .target(
             name: "choir",
-            dependencies: ["Chorus", "Datable", "Package", "NetworkLinux", .product(name: "SwiftAST", package: "swift-ast")]),
+            dependencies: ["Chorus", "Datable", "Package",
+                           .product(name: "SwiftAST", package: "swift-ast"),
+                           .product(name: "NetworkLinux", package: "NetworkLinux", condition: .when(platforms: [.linux]))]),
         .target(
             name: "Expressible",
-            dependencies: [.product(name: "SwiftAST", package: "swift-ast")]),
+            dependencies: [.product(name: "SwiftAST", package: "swift-ast"),
+                           .product(name: "NetworkLinux", package: "NetworkLinux", condition: .when(platforms: [.linux]))]),
         .target(
             name: "SongExpressible",
             dependencies: ["Song", "Expressible"]),

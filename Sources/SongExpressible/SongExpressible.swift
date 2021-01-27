@@ -12,7 +12,7 @@ import AST
 
 public extension SongSingleValueEncodingContainer
 {
-    public func encode<T>(_ value: T) throws where T: Expressible {
+    func encode<T>(_ value: T) throws where T: Expressible {
         let concreteType = type(of: value as Any)
         let typeName = String("\(concreteType)".split(separator: " ")[0])
         
