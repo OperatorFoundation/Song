@@ -280,7 +280,6 @@ extension Symphony
         }
         else
         {
-            print(path.relativePath)
             return self.root.appendingPathComponent(path.relativePath)
         }
     }
