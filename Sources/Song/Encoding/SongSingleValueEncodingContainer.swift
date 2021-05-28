@@ -10,6 +10,7 @@ import Foundation
 import AST
 
 typealias EncodableDictionary<K,V> = Dictionary<K, V> where K: Encodable & Hashable, V: Encodable
+typealias EncodableArray<T> = Array<T> where T: Encodable
 
 public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
     public var encoder: Encoder
@@ -136,6 +137,19 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
             self.data = nextKeyedContainer.data
         }
     }
+
+    public func encode<T>(_ value: [T]) throws where T : Encodable {
+        guard let firstValue = value.first else {
+            // FIXME - encode empty array with unspecialized types
+            return
+        }
+
+        let valueType = String(String(describing: type(of: firstValue)).split(separator: " ")[0])
+
+        let ex = literal(array: value)
+
+        self.data = wrapArray(valueType: valueType, literal: ex)
+    }
     
     func encode(_ value: Decimal) throws {
         let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Decimal"))])))
@@ -228,6 +242,16 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
         return d!
     }
 
+    private func wrapArray(valueType: String, literal: Expression) -> Data {
+        let name = IdentifierPattern(identifier: Identifier.name("value"), typeAnnotation: TypeAnnotation(type: TypeIdentifier(names: [TypeIdentifier.TypeName(name: Identifier.name("Array<\(valueType)>"))])))
+        let initializer: PatternInitializer = PatternInitializer(pattern: name, initializerExpression: literal)
+        let decl = ConstantDeclaration(initializerList: [initializer])
+        let top = TopLevelDeclaration(statements: [decl], comments: [], shebang: nil)
+        let s = top.textDescription
+        let d = s.data(using: .utf8)
+        return d!
+    }
+
     public func literal(dictionary: Dictionary<AnyHashable, Any>) -> Expression {
         var entries: [DictionaryEntry] = []
         for (key, value) in dictionary {
@@ -246,7 +270,25 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
         let lit = LiteralExpression(kind: LiteralExpression.Kind.dictionary(entries))
         return lit
     }
-    
+
+    public func literal(array: [Any]) -> Expression {
+        var entries: [Expression] = []
+        for value in array {
+            guard value is Encodable else {
+                continue
+            }
+
+            let valueEn = value as! Encodable
+
+            guard let valueEx = try? literal(any: valueEn) else {
+                continue
+            }
+            entries.append(valueEx)
+        }
+        let lit = LiteralExpression(kind: LiteralExpression.Kind.array(entries))
+        return lit
+    }
+
     public func literal(kind: LiteralExpression.Kind) -> Expression {
         let value: Expression = LiteralExpression(kind: kind)
         return value

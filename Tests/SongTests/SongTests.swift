@@ -1350,7 +1350,107 @@ class SongTests: XCTestCase {
         }
         XCTAssertEqual(r, correct)
     }
-            
+
+    func testEncodeArray_1() {
+        let song = SongEncoder()
+
+        let source: [Int] = [1]
+        let correct = "let value: Array<Int> = [1]".data(using: .utf8)!
+
+        let result = try? song.encode(source)
+
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testEncodeArray_5() {
+        let song = SongEncoder()
+
+        let source: [Int] = [1, 2, 3, 4, 5]
+        let correct = "let value: Array<Int> = [1, 2, 3, 4, 5]".data(using: .utf8)!
+
+        let result = try? song.encode(source)
+
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeArray_1() {
+        let song = SongDecoder()
+
+        let source = "let value: Array<Int> = [1]".data(using: .utf8)!
+        let correct: [Int] = [1]
+
+        let result = try? song.decode(Array<Int>.self, from: source)
+
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeArray_5() {
+        let song = SongDecoder()
+
+        let source = "let value: Array<Int> = [1, 2, 3, 4, 5]".data(using: .utf8)!
+        let correct: [Int] = [1, 2, 3, 4, 5]
+
+        let result = try? song.decode(Array<Int>.self, from: source)
+
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testEncodeStructArray_1() {
+        let song = SongEncoder()
+
+        struct TestStruct: Codable
+        {
+            let number: Int
+        }
+
+        let source: [TestStruct] = [TestStruct(number: 1)]
+        let correct = "let value: Array<TestStruct> = [TestStruct(number: 1)]".data(using: .utf8)!
+
+        let result = try? song.encode(source)
+
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
+    func testDecodeStructArray_1() {
+        let song = SongDecoder()
+
+        struct TestStruct: Codable, Equatable
+        {
+            let number: Int
+        }
+
+        let source = "let value: Array<TestStruct> = [TestStruct(number: 1)]".data(using: .utf8)!
+        let correct: [TestStruct] = [TestStruct(number: 1)]
+
+        let result = try? song.decode(Array<TestStruct>.self, from: source)
+
+        XCTAssertNotNil(result)
+        guard let r = result else {
+            return
+        }
+        XCTAssertEqual(r, correct)
+    }
+
 //    func testChoir()
 //    {
 //        let song = SongDecoder()
