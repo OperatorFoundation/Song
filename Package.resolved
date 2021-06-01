@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "Socket",
-        "repositoryURL": "https://github.com/OperatorFoundation/BlueSocket",
-        "state": {
-          "branch": null,
-          "revision": "90212ea8b66787c2d51d03527a04748ba6ee7679",
-          "version": "1.1.0"
-        }
-      },
-      {
         "package": "Datable",
         "repositoryURL": "https://github.com/OperatorFoundation/Datable",
         "state": {
@@ -20,30 +11,12 @@
         }
       },
       {
-        "package": "NetworkLinux",
-        "repositoryURL": "https://github.com/OperatorFoundation/NetworkLinux",
-        "state": {
-          "branch": null,
-          "revision": "cd6e552b4ce421a79cffce265c7496e8d7933f37",
-          "version": "0.2.4"
-        }
-      },
-      {
         "package": "swift-ast",
         "repositoryURL": "https://github.com/yanagiba/swift-ast",
         "state": {
           "branch": null,
           "revision": "e8507d78b32dbd33ea5ea975bbbc82b7613870a1",
           "version": "0.19.9"
-        }
-      },
-      {
-        "package": "SwiftHexTools",
-        "repositoryURL": "https://github.com/OperatorFoundation/SwiftHexTools",
-        "state": {
-          "branch": null,
-          "revision": "4ce4a4f66eea05c900d447af8c07ecaac720716c",
-          "version": "1.2.2"
         }
       }
     ]
