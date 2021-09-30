@@ -1,3 +1,5 @@
+build/
+Package.resolved
 .swiftpm
 rethinkdb_data
 .DS_Store

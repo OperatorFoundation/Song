@@ -7,10 +7,18 @@
 
 import Foundation
 
-public struct ValueDictionary<K,V> where K: Codable, V: Codable
+public struct ValueDictionary<K,V> where K: Codable, V: Codable, K: CustomStringConvertible
 {
     let path: URL
     let relativePath: URL
+    let symphony: Symphony
+
+    public init(symphony: Symphony, path: URL, relativePath: URL)
+    {
+        self.path = path
+        self.relativePath = relativePath
+        self.symphony = symphony
+    }
 }
 
 extension ValueDictionary
@@ -64,43 +72,25 @@ extension ValueDictionary
 //    }
 //}
 //
-//extension ValueDictionary: Collection, MutableCollection
-//{
-//    public typealias Index = K
-//    
-//    public var startIndex: Index
-//    {
-//        return 0
-//    }
-//    
-//    public var endIndex: Index
-//    {
-//        return self.count
-//    }
-//    
-//    public subscript(position: Index) -> V
-//    {
-//        get
-//        {
-//            let filename = position.string
-//            let valuePath = self.relativePath.appendingPathComponent(filename)
-//            let result = Symphony.instance.readValue(type: T.self, at: valuePath)
-//            return result!
-//        }
-//        
-//        set(newValue)
-//        {
-//            let filename = position.string
-//            let valuePath = self.relativePath.appendingPathComponent(filename)
-//            let _ = Symphony.instance.writeValue(value: newValue, at: valuePath)
-//        }
-//    }
-//    
-//    public func index(after i: Index) -> Index
-//    {
-//        return i + 1
-//    }
-//}
+
+extension ValueDictionary
+{
+    public func get(_ key: K) -> V?
+    {
+        let filename = key.description
+        let valuePath = self.relativePath.appendingPathComponent(filename)
+        let result = self.symphony.readValue(type: V.self, at: valuePath)
+        return result
+    }
+
+    public func set(_ key: K, _ value: V) -> Bool
+    {
+        let filename = key.description
+        let valuePath = self.relativePath.appendingPathComponent(filename)
+        return self.symphony.writeValue(value: value, at: valuePath)
+    }
+}
+
 //
 //extension ValueDictionary: BidirectionalCollection
 //{
