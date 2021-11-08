@@ -4,11 +4,7 @@ import Parser
 import Source
 import Datable
 import Package
-#if os(Linux)
-import NetworkLinux
-#else
-import Network
-#endif
+import Net
 
 func main()
 {

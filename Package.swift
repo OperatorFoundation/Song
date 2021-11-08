@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,7 +6,7 @@ import PackageDescription
 #if os(macOS)
 let package = Package(
     name: "Song",
-    platforms: [.macOS(.v10_14)],
+    platforms: [.macOS(.v10_15)],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
@@ -42,6 +42,7 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/OperatorFoundation/swift-ast.git", from: "0.19.11"),
         .package(url: "https://github.com/OperatorFoundation/Datable", from: "3.1.1"),
+        .package(url: "https://github.com/OperatorFoundation/Net.git", from: "0.0.1"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -51,7 +52,7 @@ let package = Package(
             dependencies: [.product(name: "SwiftAST", package: "swift-ast"), "Datable", "Expressible"]),
         .target(
             name: "Composition",
-            dependencies: ["Datable"]),
+            dependencies: ["Datable", "Net"]),
         .target(
             name: "Chorus",
             dependencies: []),
@@ -71,12 +72,13 @@ let package = Package(
                            .product(name: "SwiftAST", package: "swift-ast")]),
         .target(
             name: "Expressible",
-            dependencies: [.product(name: "SwiftAST", package: "swift-ast")]),
+            dependencies: ["Net",
+                .product(name: "SwiftAST", package: "swift-ast")]),
         .target(
             name: "SongExpressible",
             dependencies: ["Song", "Expressible"]),
         .testTarget(name: "ExpressibleTests",
-                    dependencies: ["Song", "Expressible", "SongExpressible"]),
+                    dependencies: ["Song", "Expressible", "SongExpressible", "Net"]),
         .testTarget(
             name: "SongTests",
             dependencies: ["Song", "Composition", "Datable"]),
@@ -124,7 +126,7 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/yanagiba/swift-ast", from: "0.4.2"),
         .package(url: "https://github.com/OperatorFoundation/Datable", from: "3.0.2"),
-        .package(url: "https://github.com/OperatorFoundation/NetworkLinux", from: "0.2.4"),
+        .package(url: "https://github.com/OperatorFoundation/Net.git", from: "0.0.1"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -134,8 +136,7 @@ let package = Package(
             dependencies: [.product(name: "SwiftAST", package: "swift-ast"), "Datable", "Expressible"]),
         .target(
             name: "Composition",
-            dependencies: ["Datable",
-                           .product(name: "NetworkLinux", package: "NetworkLinux")]),
+            dependencies: ["Datable", "Net"]),
         .target(
             name: "Chorus",
             dependencies: []),
@@ -156,13 +157,14 @@ let package = Package(
                            .product(name: "NetworkLinux", package: "NetworkLinux")]),
         .target(
             name: "Expressible",
-            dependencies: [.product(name: "SwiftAST", package: "swift-ast"),
+            dependencies: ["Net",
+                           .product(name: "SwiftAST", package: "swift-ast"),
                            .product(name: "NetworkLinux", package: "NetworkLinux")]),
         .target(
             name: "SongExpressible",
             dependencies: ["Song", "Expressible"]),
         .testTarget(name: "ExpressibleTests",
-                    dependencies: ["Song", "Expressible", "SongExpressible"]),
+                    dependencies: ["Song", "Expressible", "SongExpressible", "Net"]),
         .testTarget(
             name: "SongTests",
             dependencies: ["Song", "Composition", "Datable"]),

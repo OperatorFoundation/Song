@@ -6,12 +6,7 @@
 //
 
 import Foundation
-
-#if os(Linux)
-import NetworkLinux
-#else
-import Network
-#endif
+import Net
 
 //extension IPv4Address
 //{

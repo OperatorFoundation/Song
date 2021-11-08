@@ -7,12 +7,7 @@
 
 import Foundation
 import AST
-
-#if os(Linux)
-import NetworkLinux
-#else
-import Network
-#endif
+import Net
 
 let cellularString = "cellular"
 let loopbackString = "loopback"

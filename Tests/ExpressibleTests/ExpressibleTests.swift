@@ -7,7 +7,7 @@
 
 import XCTest
 import Foundation
-import Network
+import Net
 import Datable
 import AST
 import Parser
