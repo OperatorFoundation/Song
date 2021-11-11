@@ -154,12 +154,11 @@ let package = Package(
             name: "choir",
             dependencies: ["Chorus", "Datable", "Package",
                            .product(name: "SwiftAST", package: "swift-ast"),
-                           .product(name: "NetworkLinux", package: "NetworkLinux")]),
+                           "Net"]),
         .target(
             name: "Expressible",
             dependencies: ["Net",
-                           .product(name: "SwiftAST", package: "swift-ast"),
-                           .product(name: "NetworkLinux", package: "NetworkLinux")]),
+                           .product(name: "SwiftAST", package: "swift-ast")]),
         .target(
             name: "SongExpressible",
             dependencies: ["Song", "Expressible"]),
