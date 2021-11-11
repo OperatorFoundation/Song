@@ -41,7 +41,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/OperatorFoundation/swift-ast.git", from: "0.19.11"),
-        .package(url: "https://github.com/OperatorFoundation/Datable", from: "3.1.1"),
+        .package(url: "https://github.com/OperatorFoundation/Datable", from: "3.1.2"),
         .package(url: "https://github.com/OperatorFoundation/Net.git", from: "0.0.1"),
     ],
     targets: [
@@ -125,7 +125,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/yanagiba/swift-ast", from: "0.4.2"),
-        .package(url: "https://github.com/OperatorFoundation/Datable", from: "3.0.2"),
+        .package(url: "https://github.com/OperatorFoundation/Datable", from: "3.1.2"),
         .package(url: "https://github.com/OperatorFoundation/Net.git", from: "0.0.1"),
     ],
     targets: [
