@@ -41,7 +41,7 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/OperatorFoundation/swift-ast.git", from: "0.19.11"),
         .package(url: "https://github.com/OperatorFoundation/Datable", from: "3.1.2"),
-        .package(url: "https://github.com/OperatorFoundation/Net.git", from: "1.0.0"),
+        .package(url: "https://github.com/OperatorFoundation/Net.git", from: "0.0.1"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
