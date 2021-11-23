@@ -61,11 +61,11 @@ let package = Package(
         .target(
             name: "Package",
             dependencies: []),
-        .target(
+        .executableTarget(
             name: "compose",
             dependencies: ["Composition",
                            .product(name: "SwiftAST", package: "swift-ast")]),
-        .target(
+        .executableTarget(
             name: "choir",
             dependencies: ["Chorus", "Datable", "Package",
                            .product(name: "SwiftAST", package: "swift-ast")]),
