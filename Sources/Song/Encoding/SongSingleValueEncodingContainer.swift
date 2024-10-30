@@ -324,8 +324,6 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
             return "Double"
         case is Bool:
             return "Bool"
-        case nil:
-            return "Any"
         case is Date:
             return "Date"
         case is Data:
@@ -378,8 +376,6 @@ public class SongSingleValueEncodingContainer: SingleValueEncodingContainer {
             return literal(kind: LiteralExpression.Kind.floatingPoint(value, String(value)))
         case let value as Bool:
             return literal(kind: LiteralExpression.Kind.boolean(value))
-        case nil:
-            return literal(kind: LiteralExpression.Kind.`nil`)
         case is Date:
             throw EncodingError.unsupportedType("Date")
         case is Data:
