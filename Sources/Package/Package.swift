@@ -13,8 +13,8 @@ public struct Package
         guard let _ = try? FileManager.default.createDirectory(atPath: self.name, withIntermediateDirectories: false, attributes: nil) else { return }
         
         let process = Process()
-        process.currentDirectoryPath = self.name
-        process.launchPath = "/usr/bin/swift"
+        process.currentDirectoryURL = URL(string: self.name)
+        process.executableURL = URL(string: "/usr/bin/swift")
         
         switch self.type
         {
@@ -24,15 +24,15 @@ public struct Package
                 process.arguments = ["package", "init", "--type", "executable"]
         }
         
-        process.launch()
+        guard let _ = try? process.run() else { return }
         process.waitUntilExit()
     }
     
     public func update()
     {
         let process = Process()
-        process.currentDirectoryPath = self.name
-        process.launchPath = "/usr/bin/swift"
+        process.currentDirectoryURL = URL(string: self.name)
+        process.executableURL = URL(string: "/usr/bin/swift")
         
         process.arguments = ["package", "update"]
         
@@ -43,20 +43,20 @@ public struct Package
     public func build()
     {
         let process = Process()
-        process.currentDirectoryPath = self.name
-        process.launchPath = "/usr/bin/swift"
+        process.currentDirectoryURL = URL(string: self.name)
+        process.executableURL = URL(string: "/usr/bin/swift")
         
         process.arguments = ["build", "-Xswiftc", "-target", "-Xswiftc", "x86_64-apple-macosx10.14"]
         
-        process.launch()
+        guard let _ = try? process.run() else { return }
         process.waitUntilExit()
     }
     
     public func run() -> Data
     {
         let process = Process()
-        process.currentDirectoryPath = self.name
-        process.launchPath = "/usr/bin/swift"
+        process.currentDirectoryURL = URL(string: self.name)
+        process.executableURL = URL(string: "/usr/bin/swift")
         
         process.arguments = ["run"]
         let output = Pipe()
