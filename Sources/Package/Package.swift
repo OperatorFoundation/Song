@@ -36,7 +36,7 @@ public struct Package
         
         process.arguments = ["package", "update"]
         
-        process.launch()
+        guard let _ = try? process.run() else { return }
         process.waitUntilExit()
     }
     
@@ -52,6 +52,7 @@ public struct Package
         process.waitUntilExit()
     }
     
+    // TODO: This should return an optional data or throw for the case where process.run() throws
     public func run() -> Data
     {
         let process = Process()
@@ -63,7 +64,7 @@ public struct Package
         process.standardOutput = output
         let handle = output.fileHandleForReading
         
-        process.launch()
+        guard let _ = try? process.run() else { return Data() }
         process.waitUntilExit()
         
         let data = handle.readDataToEndOfFile()
