@@ -42,7 +42,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/OperatorFoundation/swift-ast", from: "0.19.12"),
         .package(url: "https://github.com/OperatorFoundation/Datable", from: "4.0.1"),
-        .package(url: "https://github.com/OperatorFoundation/Net", from: "0.0.10"),
+        .package(url: "https://github.com/OperatorFoundation/Net", from: "0.0.11"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
